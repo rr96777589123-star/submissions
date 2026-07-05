@@ -1,0 +1,583 @@
+Veterinary Clinic 
+
+
+class: owner
+attributes:
+owner-name :text
+contact info :text
+pets(list of pet): text
+
+constructor (ow: text , co: text)
+set owner to ow
+set contact-info to co
+
+method
+add Pet(pet)
+
+end method
+	end class
+
+class: pet
+attributes:
+pet-name : text
+birthday : text
+medical history: text
+
+constructor (nm: text , bi: text , hi: text)
+set pet-name to nm
+set birthday to bi
+set medical history to hi
+
+method:
+getAge()
+addExamination()
+
+
+end method
+	end class
+
+
+class: medical history
+attributes:
+logs(list of examination)
+
+method:
+addrecord(exam)
+
+
+end method
+	end class
+
+
+class: visit
+attributes:
+pet(pet):text
+vet(vet):text
+examination(list of examination):list<text>[]
+treatments(list of treatment):list<text>[]
+
+constructor:(p: text , v: text)
+
+method:
+addExamination(exam)
+addTreatment(treatment)
+calculateCost()
+
+
+end method
+	end class
+
+
+class: examination
+attributes:
+date: text
+diagnosis : text
+vitalSigns (list of VitalSign):list<text>[]
+urgentFlag : Boolean
+
+constructor(d: text , dg: text, uf: boolean)
+set date to d
+set diagnosis to dg
+set urgentFlag to uf
+
+method:
+addVitalSign(vitalSign)
+checkUrgancy()
+prescribeTreatment(treatment)
+
+
+end method
+	end class
+
+
+class: treatment
+attributes:
+description: text
+cost: number
+
+constructor(d: text , c: number)
+set description to d
+set cost to c
+
+method:
+getCost()
+
+
+end method
+	end class
+-----------------------------------------------
+
+Movie Theater 
+
+class film
+
+attributes:
+title : text
+duration :text
+type:text
+rating: number
+
+constructor(t: text , d:text , ty :text , r:number)
+set title to t
+set duration to d
+set type to ty
+set rating to r
+
+method:
+getDetails()
+
+end method
+	end class
+
+
+class showtime
+
+attributes:
+film : text
+start-time: text
+end-time: text
+tickets: text
+
+constructor(f: text ,st: text , et: text , tk: text )
+set film to 
+set start-time st
+set end-time to et
+set ticket to tk
+
+
+method:
+getAvailableSeat()
+addTicket(tiket)
+end method
+	end class
+
+
+class ticket
+
+attributes:
+custumer: text
+show-time: text
+seat: number
+
+construcor(cs:text , sh:text , st:number)
+set custumer to cs
+set show-time to sh
+set seat to st
+
+method:
+getTicketInfo()
+
+end method
+	end class
+
+
+class screen
+
+attributes:
+screen-no: number
+screen-size: nmber
+
+constructor(sn: number , ss: number)
+set screen-no to sn
+set screen-size to ss
+end method
+	end class 
+
+class customer
+
+attributes:
+name: text
+contactInfo: text
+
+constructor(nm: text , ci: text)
+set name to nm
+set contactInfo to ci
+
+method
+bookTicket(showTime, seat)
+end method
+	end class
+
+-------------------------------------------------------------------------
+Warehouse Inventory 
+
+class vendor
+
+attributes:
+name: text 
+contactInfo: text
+reliabilityRating: text
+
+constructor(nm: text, ci: text, re: text)
+
+method
+update reliabilityRating ()
+end method
+	end class
+
+class product
+
+attributes:
+name: text
+type: text
+vender: text
+
+constructor(nm: text , tp: text , vd:text)
+set name to nm
+set type to tp 
+set vender to vd
+
+method:
+get productDetails()
+get totalStock()
+end method
+	end class
+
+class productType
+
+attributes:
+name: text
+description: text
+
+constructor(nm: text , des: text)
+set name to nm
+set description to ds
+
+method:
+get prouductDetails()
+end method
+	end class
+
+
+class storageBin
+
+attributes:
+binId: number
+name: text
+quantity : text
+
+constructor(bi: number , nm: text , qn: text)
+set binId to bi
+set name to nm
+set quantity to qn
+
+method:
+get storagedetails()
+end method
+	end class
+
+
+class stockMovement
+
+attributes:
+product : text
+binSize: number
+quantityChange:  text
+date: text
+
+constructor(pr: text , bz: number , qc: text , dt: text)
+set product to pr
+set binSize to bz
+set quantityChange to qc
+set date to dt
+
+method:
+recordMovment()
+
+end method
+	end class
+
+
+
+class warehouse
+
+attributes:
+products: text
+vendors: text
+
+method:
+addproducts(product)
+addVendor(vendor)
+getReport()
+
+end method
+	end class
+
+-----------------------------------------------------------------------------------------------
+School Classroom 
+
+
+class teacher
+
+attributes:
+name: text
+contactInfo: text
+classes: text
+
+constructor(nm: text , ci: text , cl: text)
+set name to nm
+set contactInfo to ci
+set classes to cl
+
+method
+recordGrade(student , grade)
+
+end method
+	end class
+
+
+class subject
+
+attributes: 
+name: text
+description: text
+
+constructor(nm:  text , ds: text)
+set name to nm 
+set description to ds 
+
+method:
+getSubjectDetails()
+end method
+	end class
+
+
+class assessment
+
+attributes: 
+name: text
+description: text
+time: text
+
+constructor(nm: text , ds: text , tm : text)
+set name to nm
+set description to ds
+set time to tm
+
+method :
+geTAssesmentDetails()
+
+end method
+	end class
+
+
+class grade
+
+attributes:
+
+assessment: text
+score: text
+
+constructor(sc: text)
+set score to sc
+
+method:
+getScore()
+
+end method
+	end class
+
+
+class student
+
+attributes:
+name: text
+studentId: text
+grades: text
+enrolledclasses: text
+
+constructor(nm: text , id: text , gr: text , ec: text)
+set name to nm
+set studentId to id
+set grades to gr
+set enrolledclasses to ec
+
+method:
+addGrade(grade)
+calculateAVG()
+checkConflict()
+
+
+class class
+attributies:
+classId: text
+teacher: text
+subject: text
+time : text
+
+constructor(ci: text , tc: text , su: text , tm : text)
+set classId to ci
+set teacher to tc
+set subject to su
+set time to tm
+
+method:
+getEnrolledStudent()
+
+end method
+	end class
+
+-------------------------------------------------------------------------------------------
+
+Insurance Policy 
+
+class policyholder
+
+attributes:
+name: text
+contactInfo: text
+policies: text
+
+constructor(nm: text , ci: text , pol: text)
+set name to nm
+set contactInfo to ci
+set policies to pol
+
+method:
+addPolicy(policy)
+
+end method
+	end class
+
+
+class policy
+
+attributes:
+policyId: text
+policyholder: text 
+claims : text
+
+constructor(pi: text , ph: text , cl: text)
+set policyId to pi
+set policyholder to ph
+set claims to cl
+
+method:
+add claim(claim)
+end method 
+	end class
+
+class coverage
+attributes:
+type: text
+limit: text
+
+constructor(tp: text , li: text)
+set type to tp
+set limit to li
+
+method:
+getCoverage()
+end method
+	end class
+
+class claim
+
+attributes:
+claimId: text
+policy: text
+coverage: text
+amount: text
+details: text
+status: text
+
+
+constructor(ci: text , pl: text , co: text , amo: text , de: text , stu: text)
+getAmount()
+getStatus()
+end method
+	end class
+
+-------------------------------------------------------
+Car Dealership 
+
+class customer
+attributes:
+name: text
+contactInfo: text
+
+constructor(nm : text , ci: text)
+set name to nm
+set contactInfo to ci
+
+method:
+purchaseVehicle(vehicle, price)
+end method
+	end class
+
+
+class model
+
+attributes:
+name: text
+price: text
+
+constructor(nm: text , pr: text)
+set name to nm
+set price to pr
+
+method:
+getprice()
+end method
+	end class
+
+class vehicle
+
+attributes:
+model : text
+price: text
+isAvailable: Boolean
+
+constructor(md: text , pr: text , iv: Boolean)
+set model to md
+set price tp pr
+set isAvailable to iv
+
+
+method:
+checkAvilibility()
+getPrice()
+markAsSold()
+
+end method
+	end class
+
+class sale
+
+attributes:
+saleId: text
+customer: text
+vehicle: text
+price: text
+
+constructor(si: text , cu: text , ve: text , pr: text)
+set saleId to si
+set customer to cu
+set vehicle to ve
+set price to pr
+
+method:
+getSaleDetails()
+end method
+	end class
+
+------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
