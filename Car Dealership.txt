@@ -1,0 +1,418 @@
+Car Dealership 
+
+class customer
+attributes:
+name: text
+contactInfo: text
+
+constructor(nm : text , ci: text)
+set name to nm
+set contactInfo to ci
+
+method:
+purchaseVehicle(vehicle, price)
+end method
+	end class
+
+
+class model
+
+attributes:
+name: text
+price: text
+
+constructor(nm: text , pr: text)
+set name to nm
+set price to pr
+
+method:
+getprice()
+end method
+	end class
+
+class vehicle
+
+attributes:
+model : text
+price: text
+isAvailable: Boolean
+
+constructor(md: text , pr: text , iv: Boolean)
+set model to md
+set price tp pr
+set isAvailable to iv
+
+
+method:
+checkAvilibility()
+end method
+getPrice()
+end method
+markAsSold()
+end method
+	end class
+
+class sale
+
+attributes:
+saleId: text
+customer: text
+vehicle: text
+price: text
+
+constructor(si: text , cu: text , ve: text , pr: text)
+set saleId to si
+set customer to cu
+set vehicle to ve
+set price to pr
+
+method:
+getSaleDetails()
+end method
+	end class
+
+------------------------------------------------------
+ Wedding Planning 
+
+class couple
+attributes:
+name: text
+contactInfo: text
+eventlist []
+
+constructor(nm: text , ci: text)
+set name to nm
+set contactInfo to ci
+
+method:
+add to event list[]
+end method 
+	end class
+---------------------------------------------------------
+class event
+
+attributes:
+eventId: number
+couple: text
+date: text
+to do list[]
+time: text
+guest list[]
+budget : text
+
+constructor (ei: number , cp: text , dt: text , tm: text ,bdg: text )
+
+method:
+add to do()
+add guest()
+calculate budgetspent()
+end method 
+	end class
+-----------------------------------------
+class to do
+
+attributes:
+name : text
+description:text
+cost: text
+isComplete: Boolean
+vendor:text
+
+constructor (nm: text , ds: text , cot: text , ic: text , ven: text)
+set name to nm
+set description to ds
+set cost to cot
+set isComplete to ic
+set vendor to ven
+
+method:
+show whattodo()
+end method
+markascompleted()
+end method 
+	end class
+--------------------------------------
+class guest
+
+attributes:
+name: text
+contactInfo: text
+
+constructor(nm : text , ci: text)
+set name to nm
+set contactInfo to ci
+
+method:
+getinfo()
+end method 
+	end class
+------------------------------------------
+Concert Ticketing
+
+class concert
+
+attributes:
+concertname: text
+time: text
+venues: text
+artist: text
+list price[]
+list ticke[]
+
+constructor(cn: text , tm: text , vn: text ,art: text)
+set concertname to cn
+set time to tm
+set venue to vn
+set artist to art
+
+method:
+add price(price)
+end method
+show reminingticket()
+end method 
+	end class
+
+------------------------------------------
+class artist
+
+attributes:
+name: text
+details: text
+contactInfo: text
+
+constructor (nm: text , dtl: text , ci: text)
+set name to nm
+set details to dtl
+set contactInfo to ci
+
+method:
+show details()
+end method 
+	end class
+
+
+class venue
+
+attributes: 
+name: text
+location : text
+concert list[]
+
+constructor(nm: text , loc: text )
+set name to nm
+set location to loc
+
+method:
+show venueDetails()
+end method
+addconcert(concert) 
+end method 
+	end class
+
+class seat
+
+attributes:
+seatNumber: number
+isBooked: Boolean
+
+constructor(sn: text , isb: boolean)
+set name to nm
+set is booked to isb
+
+method:
+bookSeat()
+end method
+isAvailable()
+end method
+	end class
+
+class price
+
+attributes:
+price : text
+seats list[]
+
+constructor(pr: text )
+set price as pr
+
+method:
+getPrice()
+end mthod
+showAvilableSeats()
+end method
+	end class
+
+class fan
+
+attributes:
+name: text
+contactInfo: text
+
+constructor(nm: text , coi: text)
+set name to nm
+set contactInfo to coi
+
+method:
+getticket()
+----------------------------------------------------
+ Software Sprint 
+
+class sprint
+attributes:
+sprintId: text
+startDate: text
+endDate: text
+tasks list[] 
+
+constructor(SI: text, SD:text, ED:text)
+set sprintId to SI
+set startDate to SD
+set endDate to ED
+
+method:
+add task[task, developer]
+
+end methid
+end class
+
+class task
+
+attributes:
+taskId: text
+description: text
+status: text
+assigned : text
+
+constructor(TI: text, DS: text , ST: text, AD: text)
+set taskId to TI
+set description to DS
+set status to ST
+set assigned to AD
+
+method:
+show assigned (developer)
+update status ()
+
+end method
+	end class
+
+class devloper
+
+attributes:
+
+name: text
+details: text
+capacity: text
+assinged: text
+
+constructor(NM: text , DTL: text , CAP:text, ASS:text)
+
+method:
+assignTask(task)
+show developer()
+end method
+	end class
+
+-------------------------------------------------------
+Farm Management 
+
+Class Farm
+
+Attributes: 
+name: text 
+fields list[] 
+workers list[]
+
+    
+Constructor(NM: text)
+set name to NM
+
+method:
+
+ add Field(field)
+end method
+ add Worker(worker)
+end method
+	end class
+
+
+Class Field
+
+Attributes:
+
+fieldID: number
+crop: text
+activities[]
+
+Constructor(fId: text, CR:text)
+set fieldID to fId
+set crop to CR
+
+method:
+addActivity(activity)
+end method
+calculateEstimatedYield()
+end method
+	end class 
+
+
+Class Crop
+
+ Attributes:
+name: text
+expectedYield: text
+waterRequirement: text
+
+Constructor(NM: text , EY: text, WR: text)
+set name to NM
+set expectedYield to EY
+set waterRequirement to WR
+
+method:
+
+Method getRequirements()
+end method
+	end class
+
+
+Class Activity
+
+Attributes:
+activityID: text
+type: text
+date: text
+worker: text
+isProperCare: Boolean
+
+Constructor(AD: text, TP:text, DT:text, WR:text)
+set activityID to AD
+set type to TP
+set date to DT
+set worker to WR
+
+method:
+
+validateActivity(crop)
+end method
+markProperCare()
+
+Class Worker
+
+Attributes:
+name: text
+contactInfo: text
+dailyLimit: text
+assignedActivities[]
+
+Constructor(NM: text, CI: text, DL:  text)
+set name to NM
+set contactInfo to CI
+set dailyLimit to DL
+
+method:
+canTakeActivity(date)
+end method
+assignActivity(activity)
+end method 
+end class
+
