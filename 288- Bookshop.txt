@@ -1,213 +1,231 @@
 288- Bookshop 
 
 attributes:
+class Customer
+    private customerName: text
+    private contactInfo: text
+    private purchaseList[]
 
-class customer
-customerName: text
-contactInfo: text
-purchaseList[]
+    constructor(CN: text , CI: text) 
+        set this.customerName to CN
+        set this.contactInfo to CI
+        set this.purchaseList to []
+    end constructor
 
-constructor(CN: text , CI: text) 
-set customerName to CN
-set contactInfo to CI
+    method: buyBook(B: Book)
+        create object P of Purchase(1, B, B.price, "08/07/2026")
+        add P to this.purchaseList
+    end method
 
-method:
-buyBook()
-end method
-get purchaseHistory[purchase] 
-end method
+    method: getPurchaseHistory()
+        for each purchase in this.purchaseList
+            display purchase.book.BookTitle , purchase.priceSold , purchase.date
+        end for
+    end method
 end class
 
 
+class Book
+    private BookTitle: text
+    private author: text
+    private price: text
+    private genre: Genre
 
-class book
-BookTitle: text
-author: text
-price: text
-gener list []
+    constructor(BT: text , AT: text, PR: text, G: Genre)
+        set this.BookTitle to BT
+        set this.author to AT
+        set this.price to PR
+        set this.genre to G
+    end constructor
 
-consturactor(BT: text ,AT: text, PR: text)
-set BookTitle to BT
-set author to AT
-set price to PR
-
-method:
-show bookDetails()
-end method
+    method: showBookDetails()
+        display this.BookTitle , this.author , this.price , this.genre.name
+    end method
 end class
 
 
-class purchase
-purchaseId: number
-book: text
-priceSold: text
-date :text
+class Purchase
+    private purchaseId: number
+    private book: Book
+    private priceSold: text
+    private date: text
 
-constructor(PI: text ,B: text, PS:text ,D:text )
-set purchaseId to PI
-set book to B to book
-set priceSold to PS
-set date to D
+    constructor(PI: number , B: Book, PS: text , D: text )
+        set this.purchaseId to PI
+        set this.book to B
+        set this.priceSold to PS
+        set this.date to D
+    end constructor
 
-method:
-addpurchase()
-end method
+    method: addPurchase()
+       
+    end method
 end class
 
 
-class gener
-name: text
+class Genre
+    private name: text
 
-constructor(NM: text)
-set name to NM
+    constructor(NM: text)
+        set this.name to NM
+    end constructor
 
-method:
-show gener()
-end method
+    method: showGenre()
+        display this.name
+    end method
 end class
 
-STRART
-	BEGIN
-		CREATE OBJECT general OF gener(sport)
-		CREATE OBJECT book1 OF book("life with sport", "Ahmed Ali", "5 RO",sport )
-		CREATE OBJECT customer1 OF customer("Reem", 97601040)
 
-		customer1.buyBook(book1)
-		
-		display "Reem's purchase History:"
-		customer1.getPurchaceHistory()
+START
+BEGIN
+    CREATE OBJECT genre1 OF Genre("Sport")
+    CREATE OBJECT book1 OF Book("Life with Sport", "Ahmed Ali", "5 RO", genre1)
+    CREATE OBJECT customer1 OF Customer("Reem", "97601040")
+
+    customer1.buyBook(book1)
+
+    display "Reem's Purchase History:"
+    customer1.getPurchaseHistory()
 END
-	STOP
-
+STOP
 
 
 
 -----------------------------------------------------------------------
 289- Online Exam Platform
 
-class student
-studentName: text
-studentId: number
-attempts[]
+class Student
+    private studentName: text
+    private studentId: number
+    private attempts[]
 
-constructor(SN: text , SI: number)
-set studentName to SN
-set studentId to SI
-end constructor
+    constructor(SN: text , SI: number)
+        set this.studentName to SN
+        set this.studentId to SI
+        set this.attempts to []
+    end constructor
 
-method: takeExam( exam)
-create object A of attempt(1, E, "08/07/2026", 60)
-add A to attempts
-end method
+    method: takeExam(E: Exam, AI: number, D: text, TL: number)
+        create object A of Attempt(AI, E, D, TL)
+        add A to this.attempts
+    end method
 
-method: getAttempts()
-display attempt.exam.examTitle , attempt.score , attempt.date
+    method: getAttempts()
+        for each attempt in this.attempts
+            display attempt.exam.examTitle , attempt.score , attempt.date
+        end for
+    end method
+
+    method: getLatestAttempt()
+        return last element of this.attempts
+    end method
+end class
+
+
+class Exam
+    private examTitle: text
+    private questions[]
+
+    constructor(ET: text)
+        set this.examTitle to ET
+        set this.questions to []
+    end constructor
+
+    method: addQuestion(Q: Question)
+        add Q to this.questions
+    end method
+
+    method: showExam()
+        display this.examTitle
+        for each question in this.questions
+            display question.text , question.pointValue
         end for
     end method
 end class
 
 
-class exam
-examTitle: text
-questions[]
+class Question
+    private text: text
+    private correctAnswer: text
+    private pointValue: number
 
-constructor(ET: text)
-set examTitle to ET
-set questions to []
-end constructor
+    constructor(TX: text , CA: text , PV: number)
+        set this.text to TX
+        set this.correctAnswer to CA
+        set this.pointValue to PV
+    end constructor
+end class
 
-method: addQuestion(Q: question)
-add Q to questions
-end method
 
-method: showExam()
-display examTitle
-for each question in questions
-display question.text , question.pointValue
+class Attempt
+    private attemptId: number
+    private exam: Exam
+    private answers[]   // list of pairs (Question, Answer)
+    private score: number
+    private date: text
+    private timeLimit: number
+    private expired: boolean
+    private startTime: text
+
+    constructor(AI: number , E: Exam , D: text , TL: number)
+        set this.attemptId to AI
+        set this.exam to E
+        set this.date to D
+        set this.timeLimit to TL
+        set this.answers to []
+        set this.score to 0
+        set this.expired to false
+        set this.startTime to D
+    end constructor
+
+    method: answerQuestion(Q: Question , ANS: text , currentTime: text)
+        if this.expired = false AND currentTime <= this.startTime + this.timeLimit
+            add (Q, ANS) to this.answers
+        else
+            display "Time limit passed, cannot answer."
+            set this.expired to true
+        end if
+    end method
+
+    method: calculateScore()
+        set this.score to 0
+        for each (Q, ANS) in this.answers
+            if ANS = Q.correctAnswer
+                this.score = this.score + Q.pointValue
+            end if
         end for
     end method
-end class
 
-
-class question
-text: text
-correctAnswer: text
-pointValue: number
-
-constructor(TX: text , CA: text , PV: number)
-set text to TX
-set correctAnswer to CA
-set pointValue to PV
-end constructor
-end class
-
-
-class attempt
-attemptId: number
-exam: exam
-answers[]
-score: number
-date: text
-timeLimit: number
-expired: boolean
-
-constructor(AI: number , E: exam , D: text , TL: number)
-set attemptId to AI
-set exam to E
-set date to D
-set timeLimit to TL
-set answers to []
-set score to 0
-set expired to false
-end constructor
-
-method: answerQuestion(Q: question , ANS: text)
-if expired = false
-add (Q, ANS) to answers
- else
- display "Time limit passed, cannot answer."
-end if
+    method: expireAttempt()
+        set this.expired to true
     end method
-
- method: calculateScore()
- set score to 0
-for each (Q, ANS) in answers
-if ANS = Q.correctAnswer
-score = score + Q.pointValue
-end if
-end for
-end method
-
-method: expireAttempt()
-set expired to true
-end method
 end class
 
 
 START
 BEGIN
-    CREATE OBJECT exam1 OF exam("Math Basics")
-    CREATE OBJECT q1 OF question("2+2=?", "4", 5)
-    CREATE OBJECT q2 OF question("3*3=?", "9", 5)
+    CREATE OBJECT exam1 OF Exam("Math Basics")
+    CREATE OBJECT q1 OF Question("2+2=?", "4", 5)
+    CREATE OBJECT q2 OF Question("3*3=?", "9", 5)
 
     exam1.addQuestion(q1)
     exam1.addQuestion(q2)
 
-    CREATE OBJECT student1 OF student("Reem", 101)
+    CREATE OBJECT student1 OF Student("Reem", 101)
 
-    student1.takeExam(exam1)
+    student1.takeExam(exam1, 1, "08/07/2026 14:00", 60)
 
+    latestAttempt = student1.getLatestAttempt()
 
-    student1.attempts[0].answerQuestion(q1, "4")
-    student1.attempts[0].answerQuestion(q2, "8") 
+    latestAttempt.answerQuestion(q1, "4", "08/07/2026 14:10")
+    latestAttempt.answerQuestion(q2, "8", "08/07/2026 14:20")
 
-    student1.attempts[0].calculateScore()
+    latestAttempt.calculateScore()
 
     display "Reem's Attempts:"
     student1.getAttempts()
 END
 STOP
-
 -----------------------------------------------------------
 Task 290: Taxi Company 
 
@@ -376,90 +394,216 @@ end class
 
 END
 	STOP
-------------------------------------------------------------
-class client
-clientName: text
-contactInfo: text
-sessions[]
+	STOP
+------------------------------------------------------------------------------
+Task 291: Co-working Space 
+class Member
+    private name: text
+    private contactInfo: text
+    private membership: Membership
+    private bookings[]
 
-constructor(CN: text , CI: text)
-set clientName to CN
-set contactInfo to CI
-set sessions to []
-end constructor
+    constructor(NM: text , CI: text , M: Membership)
+        set this.name to NM
+        set this.contactInfo to CI
+        set this.membership to M
+        set this.bookings to []
+    end constructor
 
-method: bookSession(session)
-return Session
-end method
+    method: bookRoom(BI: text , R: Room , D: text , ST: text , ET: text)
+        duration = calculateHours(ST, ET)
+        if this.getUsedHours() + duration <= this.membership.monthlyQuota
+            if R.isAvailable(D, ST, ET)
+                create object B of Booking(BI, D, ST, ET, this, R)
+                add B to this.bookings
+                R.addBooking(B)
+                display "Booking successful"
+            else
+                display "Room not available in this time slot."
+            end if
+        else
+            display "Booking rejected: quota exceeded."
+        end if
+    end method
 
-method: getSessions()
-for each session in sessions
-return session.date , session.duration , session.workoutType
-end for
-end method
+    method: getUsedHours()
+        total = 0
+        for each booking in this.bookings
+            total = total + calculateHours(booking.startTime, booking.endTime)
+        end for
+        return total
+    end method
+
+    method: getRemainingHours()
+        return this.membership.monthlyQuota - this.getUsedHours()
+    end method
 end class
 
 
-class session
-sessionId: number
-date: text
-duration: text
-workoutType: text
-client: client
+class Membership
+    private membershipNo: number
+    private monthlyQuota: number
 
-constructor(SI: number , DT: text , DUR: text , WT: text , C: client)
-set sessionId to SI
-set date to DT
-set duration to DUR
-set workoutType to WT
-set client to C
-end constructor
+    constructor(MN: number , MQ: number)
+        set this.membershipNo to MN
+        set this.monthlyQuota to MQ
+    end constructor
 
-method: showSessionDetails()
-return sessionId , date , duration , workoutType , client.clientName
-end method
+    method: getMembershipDetails()
+        display this.membershipNo , this.monthlyQuota
+    end method
 end class
 
 
-class trainer
-trainerName: text
-trainerId: number
-allSessions[]
+class Room
+    private roomNo: number
+    private bookings[]
 
-constructor(TN: text , TI: number)
-set trainerName to TN
-set trainerId to TI
-set allSessions to []
-end constructor
+    constructor(RN: number)
+        set this.roomNo to RN
+        set this.bookings to []
+    end constructor
 
- method: addSession(session)
-add session to allSessions
-end method
-method: getAllSessions()
-for each session in allSessions
-return session.date , session.duration , session.workoutType , session.client.clientName
-end for
-end method
+    method: isAvailable(D: text , ST: text , ET: text)
+        for each booking in this.bookings
+            if timesOverlap(ST, ET, booking.startTime, booking.endTime) AND booking.date = D
+                return false
+            end if
+        end for
+        return true
+    end method
+
+    method: addBooking(B: Booking)
+        add B to this.bookings
+    end method
+end class
+
+
+class Booking
+    private bookingId: text
+    private date: text
+    private startTime: text
+    private endTime: text
+    private member: Member
+    private room: Room
+
+    constructor(BI: text , D: text , ST: text , ET: text , M: Member , R: Room)
+        set this.bookingId to BI
+        set this.date to D
+        set this.startTime to ST
+        set this.endTime to ET
+        set this.member to M
+        set this.room to R
+    end constructor
+
+    method: showBookingDetails()
+        display this.bookingId , this.date , this.startTime , this.endTime , this.member.name , this.room.roomNo
+    end method
 end class
 
 
 START
 BEGIN
-    CREATE OBJECT trainer1 OF trainer("Ahmed", 501)
-    CREATE OBJECT client1 OF client("Reem", "97601040")
-    CREATE OBJECT client2 OF client("Omar", "97602050")
+    CREATE OBJECT membership1 OF Membership(101, 10) 
+    CREATE OBJECT member1 OF Member("Reem", "reem@gmail.com", membership1)
+    CREATE OBJECT room1 OF Room(201)
 
-    CREATE OBJECT session1 OF session(1, "09/07/2026", "1 hour", "Cardio", client1)
-    CREATE OBJECT session2 OF session(2, "10/07/2026", "2 hours", "Strength", client2)
+    member1.bookRoom("B221", room1, "2/7/2026", "9:00 AM", "12:00 PM")
 
-    client1.bookSession(session1)
-    client2.bookSession(session2)
+    display "Reem's Remaining Hours:"
+    display member1.getRemainingHours()
+END
+STOP
+------------------------------------------------------------
+Task 292: Personal Trainer Bookings
 
-    trainer1.addSession(session1)
-    trainer1.addSession(session2)
+class Client
+    private clientName: text
+    private contactInfo: text
+    private sessions[]
+
+    constructor(CN: text , CI: text)
+        set this.clientName to CN
+        set this.contactInfo to CI
+        set this.sessions to []
+    end constructor
+
+    method: bookSession(SI: number , DT: text , DUR: number , WT: text , T: Trainer)
+        create object S of Session(SI, DT, DUR, WT, this, T)
+        add S to this.sessions
+        T.addSession(S)
+    end method
+
+    method: getSessions()
+        for each session in this.sessions
+            display session.date , session.duration , session.workoutType
+        end for
+    end method
+end class
+
+
+class Session
+    private sessionId: number
+    private date: text
+    private duration: number
+    private workoutType: text
+    private client: Client
+    private trainer: Trainer
+
+    constructor(SI: number , DT: text , DUR: number , WT: text , C: Client , T: Trainer)
+        set this.sessionId to SI
+        set this.date to DT
+        set this.duration to DUR
+        set this.workoutType to WT
+        set this.client to C
+        set this.trainer to T
+    end constructor
+
+    method: showSessionDetails()
+        display this.sessionId , this.date , this.duration , this.workoutType , this.client.clientName , this.trainer.trainerName
+    end method
+end class
+
+
+class Trainer
+    private trainerName: text
+    private trainerId: number
+    private contactInfo: text
+    private allSessions[]
+
+    constructor(TN: text , TI: number , CI: text)
+        set this.trainerName to TN
+        set this.trainerId to TI
+        set this.contactInfo to CI
+        set this.allSessions to []
+    end constructor
+
+    method: addSession(S: Session)
+        add S to this.allSessions
+    end method
+
+    method: getAllSessions()
+        for each session in this.allSessions
+            display session.date , session.duration , session.workoutType , session.client.clientName
+        end for
+    end method
+end class
+
+
+START
+BEGIN
+    CREATE OBJECT trainer1 OF Trainer("Ahmed", 501, "ahmed@fitness.com")
+    CREATE OBJECT client1 OF Client("Reem", "97601040")
+    CREATE OBJECT client2 OF Client("Omar", "97602050")
+
+    client1.bookSession(1, "09/07/2026", 1, "Cardio", trainer1)
+    client2.bookSession(2, "10/07/2026", 2, "Strength", trainer1)
 
     display "All sessions booked with Ahmed:"
     trainer1.getAllSessions()
+
+    display "Reem's Sessions:"
+    client1.getSessions()
 END
 STOP
 
