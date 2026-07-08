@@ -1,0 +1,477 @@
+288- Bookshop 
+
+attributes:
+
+class customer
+customerName: text
+contactInfo: text
+purchaseList[]
+
+constructor(CN: text , CI: text) 
+set customerName to CN
+set contactInfo to CI
+
+method:
+buyBook()
+end method
+get purchaseHistory[purchase] 
+end method
+end class
+
+
+
+class book
+BookTitle: text
+author: text
+price: text
+gener list []
+
+consturactor(BT: text ,AT: text, PR: text)
+set BookTitle to BT
+set author to AT
+set price to PR
+
+method:
+show bookDetails()
+end method
+end class
+
+
+class purchase
+purchaseId: number
+book: text
+priceSold: text
+date :text
+
+constructor(PI: text ,B: text, PS:text ,D:text )
+set purchaseId to PI
+set book to B to book
+set priceSold to PS
+set date to D
+
+method:
+addpurchase()
+end method
+end class
+
+
+class gener
+name: text
+
+constructor(NM: text)
+set name to NM
+
+method:
+show gener()
+end method
+end class
+
+STRART
+	BEGIN
+		CREATE OBJECT general OF gener(sport)
+		CREATE OBJECT book1 OF book("life with sport", "Ahmed Ali", "5 RO",sport )
+		CREATE OBJECT customer1 OF customer("Reem", 97601040)
+
+		customer1.buyBook(book1)
+		
+		display "Reem's purchase History:"
+		customer1.getPurchaceHistory()
+END
+	STOP
+
+
+
+
+-----------------------------------------------------------------------
+289- Online Exam Platform
+
+class student
+studentName: text
+studentId: number
+attempts[]
+
+constructor(SN: text , SI: number)
+set studentName to SN
+set studentId to SI
+end constructor
+
+method: takeExam( exam)
+create object A of attempt(1, E, "08/07/2026", 60)
+add A to attempts
+end method
+
+method: getAttempts()
+display attempt.exam.examTitle , attempt.score , attempt.date
+        end for
+    end method
+end class
+
+
+class exam
+examTitle: text
+questions[]
+
+constructor(ET: text)
+set examTitle to ET
+set questions to []
+end constructor
+
+method: addQuestion(Q: question)
+add Q to questions
+end method
+
+method: showExam()
+display examTitle
+for each question in questions
+display question.text , question.pointValue
+        end for
+    end method
+end class
+
+
+class question
+text: text
+correctAnswer: text
+pointValue: number
+
+constructor(TX: text , CA: text , PV: number)
+set text to TX
+set correctAnswer to CA
+set pointValue to PV
+end constructor
+end class
+
+
+class attempt
+attemptId: number
+exam: exam
+answers[]
+score: number
+date: text
+timeLimit: number
+expired: boolean
+
+constructor(AI: number , E: exam , D: text , TL: number)
+set attemptId to AI
+set exam to E
+set date to D
+set timeLimit to TL
+set answers to []
+set score to 0
+set expired to false
+end constructor
+
+method: answerQuestion(Q: question , ANS: text)
+if expired = false
+add (Q, ANS) to answers
+ else
+ display "Time limit passed, cannot answer."
+end if
+    end method
+
+ method: calculateScore()
+ set score to 0
+for each (Q, ANS) in answers
+if ANS = Q.correctAnswer
+score = score + Q.pointValue
+end if
+end for
+end method
+
+method: expireAttempt()
+set expired to true
+end method
+end class
+
+
+START
+BEGIN
+    CREATE OBJECT exam1 OF exam("Math Basics")
+    CREATE OBJECT q1 OF question("2+2=?", "4", 5)
+    CREATE OBJECT q2 OF question("3*3=?", "9", 5)
+
+    exam1.addQuestion(q1)
+    exam1.addQuestion(q2)
+
+    CREATE OBJECT student1 OF student("Reem", 101)
+
+    student1.takeExam(exam1)
+
+
+    student1.attempts[0].answerQuestion(q1, "4")
+    student1.attempts[0].answerQuestion(q2, "8") 
+
+    student1.attempts[0].calculateScore()
+
+    display "Reem's Attempts:"
+    student1.getAttempts()
+END
+STOP
+
+-----------------------------------------------------------
+Task 290: Taxi Company 
+
+class passenger:
+name: text
+contactInfo: text
+
+constructor(NM:text , CI: text)
+set NM to name
+set CI to contactInfo
+end constructor
+
+methods:
+show passengerDetails
+return passenger details
+end method
+end class
+
+
+class driver
+name: text
+contactInfo: text
+vehicle: text
+trips[]
+
+constructor(NM: text , CI:text , V: text)
+set NM to name 
+set CI to contactInfo
+set vehicle to V
+end constructor
+
+methods:
+get driver()
+return driverInfo
+end method
+add to trips[]
+return trips
+end method
+end class
+
+class trips
+tripNo: number
+pickup:text
+dropOff: text
+time: text
+fare: text
+passenger[]
+driver[]
+
+constructor(TNO: text, PUP: text , DOF: text ,TM: text ,FR: text )
+end constructor
+
+method:
+add passenger()
+return passenger
+end method
+add driver()
+return driver
+end method
+show tripDetails()
+return trip
+end method
+end class
+
+START
+	BEGIN
+		CREATE OBJECT driver1 OF driver("Ali","97600001","Toyota Camry")
+		CREATE OBJECT passenger1 OF passenger("Reem", "7954321")
+		CREATE OBJECT trip1 OF trips(22,"Ruwi","Seeb", "10:4 PM", "200 KM" , passenger1, driver1)
+
+
+driver1.finishTrips(trip1)
+return "Trips completed successful"
+driver1.getTrips()
+
+END
+	STOP
+------------------------------------------------------------------------------
+Task 291: Co-working Space 
+
+class member
+
+name: text
+contactInfo: text
+membership[]
+booking[]
+
+constructor(NM:text , CI:text)
+set name to NM
+set contactInfo to CI
+end constructor
+
+methods:
+book membership()
+return membershipDetails
+end method
+book room()
+return roomNo
+end method
+end method
+end class
+
+
+class membership
+membershipNo: number
+monthlyQuto: number
+
+constructor(MN:number , MQ: number)
+set name to NM
+set monthlyQuto to MQ
+end constructor
+
+methods:
+get membershipDetails()
+returnmembership
+
+class room:
+roomNo: number
+booking[]
+
+constructor(RN: number)
+set roomNo to RN
+end constructor
+
+methods:
+isavailable(date: text , startTime: text, endTime: text)
+for each booking in booking
+if time is overlab(startTime, endTime, booking.startTime, booking.endTime)
+return false
+else 
+return true
+end if
+end for
+end method
+add booking(booking)
+return booking
+end method
+end class
+
+
+class booking
+bookindId:text
+date: text
+startTime: text
+endTime: text
+member[]
+room[]
+
+constructor(BI: test ,D: text , ST: text ,ED: text)
+end constructor
+
+methods:
+show bookingDetails()
+return bookingDetails(bookingId ,date, startTime, endTime)
+end method
+end class
+
+		Start
+			BEGIN
+				
+				CREATE OBJECT member1 OF member("reem", "reem@gmail.com","stander")
+				CREATE OBJECT room1 OF room("201")
+
+				member1.bookRoom("221","2/7/2026","9:00 AM","12:00 PM")
+				return member1.show bookingDetails()
+
+END
+	STOP
+------------------------------------------------------------
+class client
+clientName: text
+contactInfo: text
+sessions[]
+
+constructor(CN: text , CI: text)
+set clientName to CN
+set contactInfo to CI
+set sessions to []
+end constructor
+
+method: bookSession(session)
+return Session
+end method
+
+method: getSessions()
+for each session in sessions
+return session.date , session.duration , session.workoutType
+end for
+end method
+end class
+
+
+class session
+sessionId: number
+date: text
+duration: text
+workoutType: text
+client: client
+
+constructor(SI: number , DT: text , DUR: text , WT: text , C: client)
+set sessionId to SI
+set date to DT
+set duration to DUR
+set workoutType to WT
+set client to C
+end constructor
+
+method: showSessionDetails()
+return sessionId , date , duration , workoutType , client.clientName
+end method
+end class
+
+
+class trainer
+trainerName: text
+trainerId: number
+allSessions[]
+
+constructor(TN: text , TI: number)
+set trainerName to TN
+set trainerId to TI
+set allSessions to []
+end constructor
+
+ method: addSession(session)
+add session to allSessions
+end method
+method: getAllSessions()
+for each session in allSessions
+return session.date , session.duration , session.workoutType , session.client.clientName
+end for
+end method
+end class
+
+
+START
+BEGIN
+    CREATE OBJECT trainer1 OF trainer("Ahmed", 501)
+    CREATE OBJECT client1 OF client("Reem", "97601040")
+    CREATE OBJECT client2 OF client("Omar", "97602050")
+
+    CREATE OBJECT session1 OF session(1, "09/07/2026", "1 hour", "Cardio", client1)
+    CREATE OBJECT session2 OF session(2, "10/07/2026", "2 hours", "Strength", client2)
+
+    client1.bookSession(session1)
+    client2.bookSession(session2)
+
+    trainer1.addSession(session1)
+    trainer1.addSession(session2)
+
+    display "All sessions booked with Ahmed:"
+    trainer1.getAllSessions()
+END
+STOP
+
+
+
+
+
+
+
+
+
+
+
+
+
