@@ -1,0 +1,593 @@
+Task 303: Musical Instruments Store
+
+class Instrument
+private brand: text
+private price: number
+
+constructor(B: text, P: number)
+        set this.brand to B
+        set this.price to P
+end constructor
+
+    method:
+ describePlayStyle()
+    end method
+end class
+
+
+class Guitar inherits Instrument
+    private strings: number
+
+constructor(B: text, P: number, S: number)
+        super(B, P)
+        set this.strings to S
+end constructor
+
+method: 
+describePlayStyle()
+        return "strummed or plucked"
+end method
+	end class
+
+
+class DrumKit inherits Instrument
+private pieces: number
+
+constructor(B: text, P: number, Pc: number)
+         super(B, P)
+        set this.pieces to Pc
+end constructor
+
+method: 
+describePlayStyle()
+        return "struck"
+end method
+	end class
+
+
+class Keyboard inherits Instrument
+    private keys: number
+
+constructor(B: text, P: number, K: number)
+        super(B, P)
+        set this.keys to K
+ end constructor
+
+ method: 
+describePlayStyle()
+        return "pressed"
+end method
+	end class
+
+
+class Store
+    private instruments[]
+
+constructor()
+        set this.instruments to []
+ end constructor
+
+method: addInstrument(I: Instrument)
+        add I to this.instruments
+ end method
+
+method: showAllInstruments()
+ for each inst in this.instruments
+            display inst.brand , inst.price , inst.describePlayStyle()
+end for
+    	end method
+			end class
+
+
+START
+BEGIN
+    CREATE OBJECT store1 OF Store()
+
+    CREATE OBJECT guitar1 OF Guitar("Yamaha", 500, 6)
+    CREATE OBJECT drum1 OF DrumKit("Pearl", 1200, 5)
+    CREATE OBJECT keyboard1 OF Keyboard("Casio", 800, 61)
+
+    store1.addInstrument(guitar1)
+    store1.addInstrument(drum1)
+    store1.addInstrument(keyboard1)
+
+    display "Instruments in Store:"
+    store1.showAllInstruments()
+END
+STOP
+
+--------------------------------------------------------------------------
+Task 304: Fitness App Workouts
+
+class Workout
+    private date: text
+    private duration: number
+
+constructor(D: text, Dur: number)
+        set this.date to D
+        set this.duration to Dur
+end constructor
+
+method:
+	calculateCalories()
+    end method
+end class
+
+
+class RunningWorkout inherits Workout
+    private distance: number
+    private pace: number
+
+constructor(D: text, Dur: number, Dist: number, P: number)
+        super(D, Dur)
+        set this.distance to Dist
+        set this.pace to P
+ end constructor
+
+    method:
+ calculateCalories()
+        return this.distance * this.pace * 0.1
+    end method
+end class
+
+
+class CyclingWorkout inherits Workout
+    private distance: number
+    private resistanceLevel: number
+
+constructor(D: text, Dur: number, Dist: number, R: number)
+        super(D, Dur)
+        set this.distance to Dist
+        set this.resistanceLevel to R
+end constructor
+
+    method:
+ calculateCalories()
+        return this.distance * this.resistanceLevel * 0.2
+    end method
+end class
+
+
+class WeightTrainingWorkout inherits Workout
+    private sets: number
+    private reps: number
+
+constructor(D: text, Dur: number, S: number, R: number)
+        super(D, Dur)
+        set this.sets to S
+        set this.reps to R
+end constructor
+
+    method: 
+calculateCalories()
+        return this.sets * this.reps * 0.5
+    end method
+end class
+
+
+class FitnessLog
+    private workouts[]
+
+constructor()
+        set this.workouts to []
+    end constructor
+
+method:
+ 	addWorkout(W: Workout)
+        add W to this.workouts
+end method
+
+method:
+  	showAllWorkouts()
+        for each w in this.workouts
+            display w.date , w.duration , w.calculateCalories()
+        end for
+    end method
+end class
+
+
+START
+BEGIN
+    CREATE OBJECT log1 OF FitnessLog()
+
+    CREATE OBJECT run1 OF RunningWorkout("2026-07-10", 30, 5, 6)
+    CREATE OBJECT cycle1 OF CyclingWorkout("2026-07-11", 45, 10, 3)
+    CREATE OBJECT wt1 OF WeightTrainingWorkout("2026-07-12", 60, 4, 12)
+
+    log1.addWorkout(run1)
+    log1.addWorkout(cycle1)
+    log1.addWorkout(wt1)
+
+    display "Workouts in Fitness Log:"
+    log1.showAllWorkouts()
+END
+	STOP
+--------------------------------------------------------------------------
+Task 305: Video Game Characters
+
+class Inventory
+    private items[]
+
+constructor()
+        set this.items to []
+end constructor
+
+method:
+addItem(item: text)
+        add item to this.items
+end method
+
+method:
+ showItems()
+        for each i in this.items
+            display i
+end for
+    	end method
+		end class
+
+
+class Character
+    private name: text
+    private health: number
+    private inventory: Inventory
+
+constructor(N: text, H: number)
+        set this.name to N
+        set this.health to H
+        set this.inventory to new Inventory()
+end constructor
+
+method: 
+attack()
+    end method
+
+method:
+ getInventory()
+        return this.inventory
+end method
+	end class
+
+
+class Warrior inherits Character
+    private armorType: text
+
+constructor(N: text, H: number, A: text)
+        super(N, H)
+        set this.armorType to A
+end constructor
+
+method:
+ attack()
+        return this.name + " attacks with melee strength!"
+end method
+	end class
+
+
+class Mage inherits Character
+    private manaPool: number
+
+constructor(N: text, H: number, M: number)
+        super(N, H)
+        set this.manaPool to M
+end constructor
+
+method:
+ 	attack()
+        if this.manaPool > 0
+            decrease this.manaPool by 10
+            return this.name + " casts a magic spell!"
+        else
+            return this.name + " has no mana left!"
+        end if
+    end method
+end class
+
+
+class Archer inherits Character
+    private arrowCount: number
+
+constructor(N: text, H: number, Ar: number)
+        super(N, H)
+        set this.arrowCount to Ar
+end constructor
+
+method:
+	 attack()
+        if this.arrowCount > 0
+            decrease this.arrowCount by 1
+            return this.name + " shoots an arrow!"
+        else
+            return this.name + " has no arrows left!"
+        end if
+    end method
+end class
+
+
+START
+BEGIN
+    CREATE OBJECT warrior1 OF Warrior("Thorin", 100, "Heavy Armor")
+    CREATE OBJECT mage1 OF Mage("Elora", 80, 50)
+    CREATE OBJECT archer1 OF Archer("Lyris", 90, 10)
+
+    warrior1.getInventory().addItem("Sword")
+    mage1.getInventory().addItem("Magic Staff")
+    archer1.getInventory().addItem("Bow")
+
+    display warrior1.attack()
+    display mage1.attack()
+    display archer1.attack()
+
+    display "Warrior Inventory:"
+    warrior1.getInventory().showItems()
+
+    display "Mage Inventory:"
+    mage1.getInventory().showItems()
+
+    display "Archer Inventory:"
+    archer1.getInventory().showItems()
+END
+STOP
+
+-----------------------------------------------------------------------
+Task 306: Utility Billing System
+
+class MeterReading
+    private startReading: number
+    private endReading: number
+
+constructor(S: number, E: number)
+        set this.startReading to S
+        set this.endReading to E
+end constructor
+
+method: 
+getConsumption()
+        return this.endReading - this.startReading
+end method
+end class
+
+
+class Bill
+    private billingPeriod: text
+    private dueDate: text
+    private meterReading: MeterReading
+
+constructor(BP: text, DD: text, MR: MeterReading)
+        set this.billingPeriod to BP
+        set this.dueDate to DD
+        set this.meterReading to MR
+end constructor
+
+method:
+ calculateAmountOwed()
+end method
+end class
+
+
+class ElectricityBill inherits Bill
+    private rateDay: number
+    private rateNight: number
+
+constructor(BP: text, DD: text, MR: MeterReading, RD: number, RN: number)
+        super(BP, DD, MR)
+        set this.rateDay to RD
+        set this.rateNight to RN
+end constructor
+
+method:
+ calculateAmountOwed()
+        consumption = this.meterReading.getConsumption()
+        return (consumption * this.rateDay) 
+end class
+
+
+class WaterBill inherits Bill
+    private flatRate: number
+    private standingCharge: number
+
+constructor(BP: text, DD: text, MR: MeterReading, FR: number, SC: number)
+        super(BP, DD, MR)
+        set this.flatRate to FR
+        set this.standingCharge to SC
+ end constructor
+
+method: 
+calculateAmountOwed()
+        consumption = this.meterReading.getConsumption()
+        return (consumption * this.flatRate) + this.standingCharge
+end method
+end class
+
+
+class GasBill inherits Bill
+    private rate: number
+    private season: text
+
+constructor(BP: text, DD: text, MR: MeterReading, R: number, S: text)
+        super(BP, DD, MR)
+        set this.rate to R
+        set this.season to S
+    end constructor
+
+method: 
+calculateAmountOwed()
+        consumption = this.meterReading.getConsumption()
+        amount = consumption * this.rate
+        if this.season == "Winter"
+            amount = amount + 50  
+        end if
+        return amount
+    end method
+end class
+
+
+class CustomerAccount
+    private bills[]
+
+constructor()
+        set this.bills to []
+end constructor
+
+ method: 
+addBill(B: Bill)
+        add B to this.bills
+end method
+
+ method:
+ showAllBills()
+        for each b in this.bills
+            display b.billingPeriod , b.dueDate , b.calculateAmountOwed()
+        end for
+    end method
+end class
+
+
+START
+BEGIN
+    CREATE OBJECT account1 OF CustomerAccount()
+
+    CREATE OBJECT mr1 OF MeterReading(1000, 1200)
+    CREATE OBJECT elecBill1 OF ElectricityBill("June 2026", "2026-07-15", mr1, 0.2, 0.1)
+
+    CREATE OBJECT mr2 OF MeterReading(500, 650)
+    CREATE OBJECT waterBill1 OF WaterBill("June 2026", "2026-07-20", mr2, 0.05, 10)
+
+    CREATE OBJECT mr3 OF MeterReading(200, 300)
+    CREATE OBJECT gasBill1 OF GasBill("June 2026", "2026-07-25", mr3, 0.15, "Winter")
+
+    account1.addBill(elecBill1)
+    account1.addBill(waterBill1)
+    account1.addBill(gasBill1)
+
+    display "Customer Bills:"
+    account1.showAllBills()
+END
+STOP
+-------------------------------------------------------------------------------------
+Task 307: Ride-Sharing Vehicle Tiers
+
+class Route
+    private waypoints[]
+
+constructor()
+        set this.waypoints to []
+ end constructor
+
+method:
+ addWaypoint(w: text)
+        add w to this.waypoints
+end method
+
+method: 
+showRoute()
+        for each wp in this.waypoints
+            display wp
+        end for
+    end method
+end class
+
+
+class Ride
+    private pickupLocation: text
+    private dropoffLocation: text
+    private route: Route
+    private distance: number
+
+constructor(P: text, D: text, Dist: number, R: Route)
+        set this.pickupLocation to P
+        set this.dropoffLocation to D
+        set this.distance to Dist
+        set this.route to R
+end constructor
+
+method: 
+calculateFare()
+    end method
+
+method:
+ getRoute()
+        return this.route
+    end method
+end class
+
+
+class StandardRide inherits Ride
+    private ratePerKm: number
+
+constructor(P: text, D: text, Dist: number, R: Route, Rate: number)
+        call super(P, D, Dist, R)
+        set this.ratePerKm to Rate
+end constructor
+
+method:
+ calculateFare()
+        return this.distance * this.ratePerKm
+    end method
+end class
+
+
+class SharedRide inherits StandardRide
+    private passengerCount: number
+
+constructor(P: text, D: text, Dist: number, R: Route, Rate: number, PC: number)
+        call super(P, D, Dist, R, Rate)
+        set this.passengerCount to PC
+end constructor
+
+method: 
+calculateFare()
+        baseFare = super.calculateFare()
+        return baseFare / this.passengerCount
+    end method
+end class
+
+
+class PremiumRide inherits Ride
+    private ratePerKm: number
+    private comfortSurcharge: number
+
+constructor(P: text, D: text, Dist: number, R: Route, Rate: number, CS: number)
+        call super(P, D, Dist, R)
+        set this.ratePerKm to Rate
+        set this.comfortSurcharge to CS
+ end constructor
+
+    method: calculateFare()
+        return (this.distance * this.ratePerKm) + this.comfortSurcharge
+    end method
+end class
+
+
+START
+BEGIN
+    CREATE OBJECT route1 OF Route()
+    route1.addWaypoint("Mall")
+    route1.addWaypoint("Main Street")
+    route1.addWaypoint("Airport")
+
+    CREATE OBJECT standardRide1 OF StandardRide("Mall", "Airport", 15, route1, 0.5)
+    CREATE OBJECT sharedRide1 OF SharedRide("Mall", "Airport", 15, route1, 0.5, 3)
+    CREATE OBJECT premiumRide1 OF PremiumRide("Mall", "Airport", 15, route1, 1.0, 5)
+
+    display "Standard Ride Fare: " , standardRide1.calculateFare()
+    display "Shared Ride Fare: " , sharedRide1.calculateFare()
+    display "Premium Ride Fare: " , premiumRide1.calculateFare()
+
+    display "Route followed:"
+    route1.showRoute()
+END
+STOP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
