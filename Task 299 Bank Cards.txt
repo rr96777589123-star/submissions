@@ -1,0 +1,894 @@
+Task 299: Bank Cards  
+
+class Shift
+    private shiftId: number
+    private wardName: text
+    private shiftTime: text
+
+    constructor(SID: number, WN: text, ST: text)
+        set this.shiftId to SID
+        set this.wardName to WN
+        set this.shiftTime to ST
+    end constructor
+
+    methods:
+        getWardName()
+            return this.wardName
+        end method
+
+        getShiftTime()
+            return this.shiftTime
+        end method
+end class
+
+
+class Staff
+    private staffId: number
+    private name: text
+    private assignedShift: Shift
+
+    constructor(SID: number, N: text)
+        set this.staffId to SID
+        set this.name to N
+        set this.assignedShift to null
+    end constructor
+
+    method assignShift(s: Shift)
+        set this.assignedShift to s
+        return this.name + " assigned to " + s.getWardName() + " (" + s.getShiftTime() + ")"
+    end method
+
+    method getAssignedShift()
+        return this.assignedShift
+    end method
+end class
+
+
+class Doctor inherits Staff
+    method diagnosePatient(patientName: text)
+        return this.name + " diagnoses " + patientName
+    end method
+
+    method approveTreatment(patientName: text)
+        return this.name + " approves treatment for " + patientName
+    end method
+end class
+
+
+class Nurse inherits Staff
+    method administerMedication(patientName: text)
+        return this.name + " administers medication to " + patientName
+    end method
+end class
+
+
+class Ward
+    private wardId: number
+    private wardName: text
+    private shifts: List OF Shift
+    private staffList: List OF Staff
+
+    constructor(WID: number, WN: text)
+        set this.wardId to WID
+        set this.wardName to WN
+        set this.shifts to []
+        set this.staffList to []
+    end constructor
+
+    method addShift(s: Shift)
+        add s to this.shifts
+    end method
+
+    method addStaff(st: Staff)
+        add st to this.staffList
+    end method
+
+    method showAllStaff()
+        for each st in this.staffList
+            display st.name , st.getAssignedShift().getShiftTime()
+        end for
+    end method
+end class
+
+
+START
+BEGIN
+    CREATE OBJECT ward1 OF Ward(1, "Emergency")
+
+    CREATE OBJECT shift1 OF Shift(101, "Emergency", "Morning")
+    CREATE OBJECT shift2 OF Shift(102, "Emergency", "Night")
+
+    ward1.addShift(shift1)
+    ward1.addShift(shift2)
+
+    CREATE OBJECT doc1 OF Doctor(201, "Dr. Ali")
+    CREATE OBJECT nurse1 OF Nurse(301, "Nurse Sara")
+
+    ward1.addStaff(doc1)
+    ward1.addStaff(nurse1)
+
+    display doc1.assignShift(shift1)
+    display nurse1.assignShift(shift2)
+
+    display "Ward Staff:"
+    ward1.showAllStaff()
+END
+STOP
+
+
+---------------------------------------------------------
+Task 300: Hospital Staff Scheduling (Medium) 
+
+Class StaffMember
+
+Attributes:
+    private name : text
+    private employeeID : text
+
+Constructor(N : text, ID : text)
+    set this.name to N
+    set this.employeeID to ID
+End Constructor
+
+Methods:
+
+method assignShift()
+    return "Shift assigned."
+End Method
+
+Class Doctor inherit StaffMember
+
+Attributes:
+    private speciality : text
+
+Constructor(N : text, ID : text, S : text)
+    call StaffMember(N, ID)
+    set this.speciality to S
+End Constructor
+
+Methods:
+
+method approveTreatment()
+    return "Treatment approved."
+End Method
+
+method diagnosePatient()
+    return "Diagnosis completed."
+End Method
+
+Class Surgeon inherit Doctor
+
+Attributes:
+    private operationType : text
+
+Constructor(N : text, ID : text, S : text, OT : text)
+    call Doctor(N, ID, S)
+    set this.operationType to OT
+End Constructor
+
+Methods:
+
+method performOperation()
+    return "Operation performed."
+End Method
+
+Class Nurse inherit StaffMember
+
+Attributes:
+    private department : text
+
+Constructor(N : text, ID : text, D : text)
+    call StaffMember(N, ID)
+    set this.department to D
+End Constructor
+
+Methods:
+
+method administerMedication()
+    return "Medication administered."
+End Method
+
+method recordVitalSigns()
+    return "Vital signs recorded."
+End Method
+
+Class Shift
+
+Attributes:
+    private startTime : text
+    private endTime : text
+    private ward : text
+
+Constructor(ST : text, ET : text, W : text)
+    set this.startTime to ST
+    set this.endTime to ET
+    set this.ward to W
+End Constructor
+
+Class Ward
+
+Attributes:
+    private wardName : text
+    private shifts[] : Shift
+
+Constructor(WN : text)
+    set this.wardName to WN
+    set this.shifts to []
+End Constructor
+
+Methods:
+
+method addShift(S : Shift)
+    add S to shifts
+End Method
+
+method getShifts()
+    return shifts
+End Method
+
+
+START
+BEGIN
+    CREATE OBJECT surgeon1 OF Surgeon(
+        "Ali",
+        "EMP101",
+        "Cardiology",
+        "Heart Surgery"
+    )
+
+    CREATE OBJECT shift1 OF Shift(
+        "08:00",
+        "16:00",
+        "Emergency"
+    )
+
+    CREATE OBJECT ward1 OF Ward("Emergency")
+
+    ward1.addShift(shift1)
+
+    return surgeon1.performOperation()
+END
+STOP
+Task 294: Employee Payrol
+
+class Employee
+private EmployeeName: text
+private EmployeeId: number
+private HireDate: text 
+
+
+constructor(EN: text , EI: number , HD: text )
+set this. EmployeeName to EN 
+set this. EmployeeId to EI
+set this. Date to HD
+
+
+end constructor
+
+methods:
+
+calculateSalary()
+return salary
+
+end method
+	end class
+
+
+
+class SalariedEmployee inherits Employee
+private mounthSalary: number
+
+constructor(EN: text , EI: number , HD: text, MS:number)
+call super (EN,EI,HD)
+set this mounthSalary to MS
+end constructor
+
+methods:
+calculate monthSalary()
+return this.mounthSalary
+end method
+end class
+
+
+class hourlyEmployee inherits Employee
+privet hourWork: number
+privet hourRate: number
+
+
+constructor(EN: text , EI: number , HD: text , HR: number ,HW: number)
+call super(EN,EI,HD)
+set this.hourWork to HW
+set this.hourRate to HR
+end constractur
+
+methods:
+calculate calculateSalary
+return this.hourWork  * this.hourRate 
+end method
+	end class
+
+class commissionEmployee inherit Employee
+privat basePay: number
+private salesAmount: number
+privet commission:number
+
+ constructor(EN: text , EI: number , HD: text , BP: number , SA: number , CR: number)
+        call super(EN, EI, HD)
+        set this.basePay to BP
+        set this.salesAmount to SA
+        set this.commission to CR
+    end constructor
+
+    methods:
+        calculateSalary()
+            return this.basePay + (this.salesAmount * this.commission)
+        end method
+end class
+
+
+class Payroll
+    private employees: list of Employee
+
+    constructor()
+        set this.employees to empty list
+    end constructor
+
+    methods:
+        addEmployee(emp: Employee)
+            add emp to this.employees
+        end method
+
+        processPayroll()
+            for each emp in this.employees
+                print emp.EmployeeName + " (ID: " + emp.EmployeeId + ") - Pay: " + emp.calculateSalary()
+            end for
+        end method
+end class
+
+
+START
+BEGIN
+    CREATE OBJECT emp1 OF SalariedEmployee("Alice", 1, "2020-01-01", 3000)
+    CREATE OBJECT emp2 OF HourlyEmployee("Bob", 2, "2021-02-15", 20, 160)
+    CREATE OBJECT emp3 OF CommissionEmployee("Charlie", 3, "2019-03-10", 1500, 10000, 0.05)
+
+    CREATE OBJECT payroll1 OF Payroll()
+
+    payroll1.addEmployee(emp1)
+    payroll1.addEmployee(emp2)
+    payroll1.addEmployee(emp3)
+
+    display "Payroll Processing Results:"
+
+    payroll1.processPayroll()
+END
+STOP
+
+------------------------------------------------------------------
+Task 295: Zoo Animal Enclosures
+
+class animal
+
+private name: text
+private age: number
+private dietType: text
+
+constructor(NM: text , AG: number , DT: text)
+	set name to NM
+	set age to AG
+	set dietType to DT
+end constructor
+
+methods:
+makeSound()
+	return "the animal makes sound"
+end method
+
+move()
+	return "the animal moves"
+end method
+
+
+class Bird inherit Animal
+private canFly: Boolean
+private laysEggs: Boolean
+
+constructor(CF: Boolean , LE: Boolean ,NM: text , AG: number , DT: text)
+	call Animal (NM , AG, DT)
+	set canFly to CF
+	set laysEggs to LE
+end constructor
+
+methods:
+makeSound()
+	return "Chirp"
+end method
+
+move()
+	return "Birds Flay"
+end method
+
+class Fish inherit Animal
+private swims: Boolean
+private hasGills: Boolean
+
+constructor(SM: Boolean , HG: Boolean ,NM: text , AG: number , DT: text)
+	call Animal (NM , AG, DT)
+	set swims to SM
+	set hasGills to HG
+end constructor
+
+methods:
+makeSound()
+	return"Blub"
+end method
+
+move()
+	return "Fish swims"
+end method
+
+
+class Mammal inherit Animal
+private hasFur: Boolean
+private givesLiveBirth: Boolean
+
+constructor(HF: BOOLEAN , GB: BOOLEAN ,NM: text , AG: number , DT: text)
+	Call Animal (NM , AG, DT)
+	set this.hasFur to HF
+	set this.givesLiveBirth to GB
+end constructor
+
+methods:
+methods:
+makeSound()
+	return"Roar"
+end method
+
+move()
+	return "Mammal walks"
+end method
+
+
+class Enclosure
+private animals[] 
+private temperature: text
+
+constructor(TM: text )
+	set this. temperature to TM
+end constructor
+
+methods:
+
+method addAnimal(A : Animal)
+    add A to animals
+End Method
+
+method displayAnimals()
+    for each A in animals
+        display A
+    end for
+End Method
+
+START
+BEGIN
+    CREATE OBJECT bird1 OF Bird("Parrot", 2, "Herbivore", true, true)
+    CREATE OBJECT fish1 OF Fish("Goldfish", 1, "Omnivore", true, true)
+    CREATE OBJECT mammal1 OF Mammal("Lion", 5, "Carnivore", true, true)
+
+    CREATE OBJECT enclosure1 OF Enclosure(25)
+
+    enclosure1.addAnimal(bird1)
+    enclosure1.addAnimal(fish1)
+    enclosure1.addAnimal(mammal1)
+
+    display "Animals in the Enclosure:"
+
+    bird1.makeSound()
+    bird1.move()
+
+    fish1.makeSound()
+    fish1.move()
+
+    mammal1.makeSound()
+    mammal1.move()
+
+    enclosure1.displayAnimals()
+END
+STOP
+
+----------------------------------------------------------------------
+Task 296: Online Payment Methods 
+
+Class PaymentMethod
+
+Attributes:
+    private amount : real
+    private status : text
+
+Constructor(A : real, S : text)
+    set this.amount to A
+    set this.status to S
+End Constructor
+
+Methods:
+
+method processPayment()
+    return "Processing Payment..."
+End Method
+
+Class CreditCardPayment inherit PaymentMethod
+
+Attributes:
+    private cardNumber : text
+    private expiryDate : text
+
+Constructor(A : real, S : text, CN : text, ED : text)
+    call PaymentMethod(A, S)
+    set this.cardNumber to CN
+    set this.expiryDate to ED
+End Constructor
+
+Methods:
+
+method processPayment()
+    set this.status to "Completed"
+    return "Credit card validated. Payment Completed."
+End Method
+
+Class BankTransferPayment inherit PaymentMethod
+
+Attributes:
+    private accountNumber : text
+    private delay : text
+
+Constructor(A : real, S : text, AN : text, D : text)
+    call PaymentMethod(A, S)
+    set this.accountNumber to AN
+    set this.delay to D
+End Constructor
+
+Methods:
+
+method processPayment()
+    set this.status to "Completed"
+    return "Bank transfer validated. Payment Completed."
+End Method
+
+Class WalletPayment inherit PaymentMethod
+
+Attributes:
+    private walletBalance : real
+
+Constructor(A : real, S : text, WB : real)
+    call PaymentMethod(A, S)
+    set this.walletBalance to WB
+End Constructor
+
+Methods:
+
+method processPayment()
+    set this.status to "Completed"
+    return "Wallet balance verified. Payment Completed."
+End Method
+
+Class Order
+
+Attributes:
+    private items[] : text
+    private payment : PaymentMethod
+
+Constructor()
+    set this.items to []
+    set this.payment to null
+End Constructor
+
+Methods:
+
+method addItem(I : text)
+    add I to items
+End Method
+
+method checkout(P : PaymentMethod)
+    set this.payment to P
+    return payment.processPayment()
+End Method
+
+START
+BEGIN
+    CREATE OBJECT order1 OF Order()
+
+    order1.addItem("Laptop")
+    order1.addItem("Mouse")
+
+    CREATE OBJECT payment1 OF CreditCardPayment(
+        500,
+        "Pending",
+        "1234567890123456",
+        "12/28"
+    )
+
+    return order1.checkout(payment1)
+END
+STOP
+---------------------------------------------------------------------
+
+Task 297: Streaming Service Subscriptions  
+
+Class Subscription
+
+Attributes:
+    private startDate : text
+    private monthlyPrice : real
+
+Constructor(SD : text, MP : real)
+    set this.startDate to SD
+    set this.monthlyPrice to MP
+End Constructor
+
+Methods:
+
+method isActive()
+    return true
+End Method
+
+method getStreamingQuality()
+    return "Streaming Quality"
+End Method
+
+
+Class BasicPlan inherit Subscription
+
+Attributes:
+    private deviceLimit : integer
+
+Constructor(SD : text, MP : real, DL : integer)
+    call Subscription(SD, MP)
+    set this.deviceLimit to DL
+End Constructor
+
+Methods:
+
+method getStreamingQuality()
+    return "Standard Definition (SD)"
+End Method
+
+method getDeviceLimit()
+    return deviceLimit
+End Method
+
+Class StandardPlan inherit Subscription
+
+Attributes:
+    private deviceLimit : integer
+
+Constructor(SD : text, MP : real, DL : integer)
+    call Subscription(SD, MP)
+    set this.deviceLimit to DL
+End Constructor
+
+Methods:
+
+method getStreamingQuality()
+    return "High Definition (HD)"
+End Method
+
+method getDeviceLimit()
+    return deviceLimit
+End Method
+
+
+Class PremiumPlan inherit Subscription
+
+Attributes:
+    private deviceLimit : integer
+    private offlineDownloads : boolean
+
+Constructor(SD : text, MP : real, DL : integer, OD : boolean)
+    call Subscription(SD, MP)
+    set this.deviceLimit to DL
+    set this.offlineDownloads to OD
+End Constructor
+
+Methods:
+
+method getStreamingQuality()
+    return "Ultra HD"
+End Method
+
+method getDeviceLimit()
+    return deviceLimit
+End Method
+
+
+Class WatchRecord
+
+Attributes:
+    private title : text
+    private watchDate : text
+
+Constructor(T : text, WD : text)
+    set this.title to T
+    set this.watchDate to WD
+End Constructor
+
+
+Class UserAccount
+
+Attributes:
+    private subscription : Subscription
+    private watchHistory[] : WatchRecord
+
+Constructor(S : Subscription)
+    set this.subscription to S
+    set this.watchHistory to []
+End Constructor
+
+Methods:
+
+method addWatchRecord(W : WatchRecord)
+    add W to watchHistory
+End Method
+
+method getSubscriptionDetails()
+    return subscription.getStreamingQuality()
+End Method
+
+
+START
+BEGIN
+    CREATE OBJECT plan1 OF PremiumPlan("01/07/2026", 12.99, 4, true)
+
+    CREATE OBJECT user1 OF UserAccount(plan1)
+
+    CREATE OBJECT record1 OF WatchRecord("Avatar", "10/07/2026")
+    CREATE OBJECT record2 OF WatchRecord("Frozen", "11/07/2026")
+
+    user1.addWatchRecord(record1)
+    user1.addWatchRecord(record2)
+
+    return user1.getSubscriptionDetails()
+END
+STOP
+
+------------------------------------------------------
+Task 298: Delivery Vehicles Fleet  
+
+Class Vehicle
+
+Attributes:
+    private licencePlate : text
+    private fuelLevel : real
+    private engine : Engine
+
+Constructor(LP : text, FL : real, E : Engine)
+    set this.licencePlate to LP
+    set this.fuelLevel to FL
+    set this.engine to E
+End Constructor
+
+Methods:
+
+method calculateDeliveryTime()
+    return "Calculating delivery time..."
+End Method
+
+
+Class Van inherit Vehicle
+
+Attributes:
+    private cargoCapacity : real
+
+Constructor(LP : text, FL : real, E : Engine, CC : real)
+    call Vehicle(LP, FL, E)
+    set this.cargoCapacity to CC
+End Constructor
+
+Methods:
+
+method calculateDeliveryTime()
+    return "Delivery time based on city driving speed."
+End Method
+
+
+
+Class Motorbike inherit Vehicle
+
+Attributes:
+    private smallPackagesOnly : boolean
+
+Constructor(LP : text, FL : real, E : Engine, SP : boolean)
+    call Vehicle(LP, FL, E)
+    set this.smallPackagesOnly to SP
+End Constructor
+
+Methods:
+
+method calculateDeliveryTime()
+    return "Delivery time based on faster average speed."
+End Method
+
+
+Class Truck inherit Vehicle
+
+Attributes:
+    private heavyLoadCapacity : real
+
+Constructor(LP : text, FL : real, E : Engine, HC : real)
+    call Vehicle(LP, FL, E)
+    set this.heavyLoadCapacity to HC
+End Constructor
+
+Methods:
+
+method calculateDeliveryTime()
+    return "Delivery time based on truck speed."
+End Method
+
+Class Engine
+
+Attributes:
+    private horsepower : integer
+    private fuelEfficiency : real
+
+Constructor(HP : integer, FE : real)
+    set this.horsepower to HP
+    set this.fuelEfficiency to FE
+End Constructor
+
+
+Class Stop
+
+Attributes:
+    private address : text
+    private package : text
+
+Constructor(A : text, P : text)
+    set this.address to A
+    set this.package to P
+End Constructor
+
+
+Class Route
+
+Attributes:
+    private stops[] : Stop
+
+Constructor()
+    set this.stops to []
+End Constructor
+
+Methods:
+
+method addStop(S : Stop)
+    add S to stops
+End Method
+
+method getStops()
+    return stops
+End Method
+
+
+START
+BEGIN
+    CREATE OBJECT engine1 OF Engine(250, 15.5)
+
+    CREATE OBJECT van1 OF Van("OM12345", 80, engine1, 1000)
+
+    CREATE OBJECT route1 OF Route()
+
+    CREATE OBJECT stop1 OF Stop("Muscat", "Box A")
+    CREATE OBJECT stop2 OF Stop("Sohar", "Box B")
+
+    route1.addStop(stop1)
+    route1.addStop(stop2)
+
+    return van1.calculateDeliveryTime()
+END
+STOP
+-----------------------------------------------
+
+
+
+
+
+
