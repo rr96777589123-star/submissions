@@ -1,587 +1,646 @@
 Task 303: Musical Instruments Store
 
-class Instrument
-private brand: text
-private price: number
+class Instrument {
+    private int instrumentId;
+    private String brand;
+    private double price;
 
-constructor(B: text, P: number)
-        set this.brand to B
-        set this.price to P
-end constructor
+    constructor(int id, String B, double P) {
+        this.instrumentId = id;
+        this.brand = B;
+        this.price = P;
+    }
 
-    method:
- describePlayStyle()
-    end method
-end class
+    // Getters
+    public int getInstrumentId() { return this.instrumentId; }
+    public String getBrand() { return this.brand; }
+    public double getPrice() { return this.price; }
 
+    // Base method
+    public String describePlayStyle() {
+        return "unknown instrument";
+    }
+}
 
-class Guitar inherits Instrument
-    private strings: number
+class Guitar extends Instrument {
+    private int strings;
 
-constructor(B: text, P: number, S: number)
-        super(B, P)
-        set this.strings to S
-end constructor
+    constructor(int id, String B, double P, int S) {
+        super(id, B, P);
+        this.strings = S;
+    }
 
-method: 
-describePlayStyle()
-        return "strummed or plucked"
-end method
-	end class
+    @Override
+    public String describePlayStyle() {
+        return "strummed or plucked";
+    }
+}
 
+class DrumKit extends Instrument {
+    private int pieces;
 
-class DrumKit inherits Instrument
-private pieces: number
+    constructor(int id, String B, double P, int Pc) {
+        super(id, B, P);
+        this.pieces = Pc;
+    }
 
-constructor(B: text, P: number, Pc: number)
-         super(B, P)
-        set this.pieces to Pc
-end constructor
+    @Override
+    public String describePlayStyle() {
+        return "struck";
+    }
+}
 
-method: 
-describePlayStyle()
-        return "struck"
-end method
-	end class
+class Keyboard extends Instrument {
+    private int keys;
 
+    constructor(int id, String B, double P, int K) {
+        super(id, B, P);
+        this.keys = K;
+    }
 
-class Keyboard inherits Instrument
-    private keys: number
+    @Override
+    public String describePlayStyle() {
+        return "pressed";
+    }
+}
 
-constructor(B: text, P: number, K: number)
-        super(B, P)
-        set this.keys to K
- end constructor
+class Store {
+    private int storeId;
+    private List<Instrument> instruments;
 
- method: 
-describePlayStyle()
-        return "pressed"
-end method
-	end class
+    constructor(int id) {
+        this.storeId = id;
+        this.instruments = new ArrayList<>();
+    }
 
+    public void addInstrument(Instrument I) {
+        this.instruments.add(I);
+    }
 
-class Store
-    private instruments[]
+    public void showAllInstruments() {
+        for (Instrument inst : this.instruments) {
+            System.out.println(
+                "ID: " + inst.getInstrumentId() +
+                ", Brand: " + inst.getBrand() +
+                ", Price: " + inst.getPrice() +
+                ", Play Style: " + inst.describePlayStyle()
+            );
+        }
+    }
+}
 
-constructor()
-        set this.instruments to []
- end constructor
+// START
+public class Main {
+    public static void main(String[] args) {
+        Store store1 = new Store(101);
 
-method: addInstrument(I: Instrument)
-        add I to this.instruments
- end method
+        Guitar guitar1 = new Guitar(1, "Yamaha", 500, 6);
+        DrumKit drum1 = new DrumKit(2, "Pearl", 1200, 5);
+        Keyboard keyboard1 = new Keyboard(3, "Casio", 800, 61);
 
-method: showAllInstruments()
- for each inst in this.instruments
-            display inst.brand , inst.price , inst.describePlayStyle()
-end for
-    	end method
-			end class
+        store1.addInstrument(guitar1);
+        store1.addInstrument(drum1);
+        store1.addInstrument(keyboard1);
 
-
-START
-BEGIN
-    CREATE OBJECT store1 OF Store()
-
-    CREATE OBJECT guitar1 OF Guitar("Yamaha", 500, 6)
-    CREATE OBJECT drum1 OF DrumKit("Pearl", 1200, 5)
-    CREATE OBJECT keyboard1 OF Keyboard("Casio", 800, 61)
-
-    store1.addInstrument(guitar1)
-    store1.addInstrument(drum1)
-    store1.addInstrument(keyboard1)
-
-    display "Instruments in Store:"
-    store1.showAllInstruments()
-END
-STOP
-
+        System.out.println("Instruments in Store:");
+        store1.showAllInstruments();
+    }
+}
 --------------------------------------------------------------------------
 Task 304: Fitness App Workouts
 
-class Workout
-    private date: text
-    private duration: number
+class Workout {
+    private int workoutId;
+    private String date;
+    private int duration;
 
-constructor(D: text, Dur: number)
-        set this.date to D
-        set this.duration to Dur
-end constructor
+    constructor(int id, String D, int Dur) {
+        this.workoutId = id;
+        this.date = D;
+        this.duration = Dur;
+    }
 
-method:
-	calculateCalories()
-    end method
-end class
+    // Getters
+    public int getWorkoutId() { return this.workoutId; }
+    public String getDate() { return this.date; }
+    public int getDuration() { return this.duration; }
 
+    public double calculateCalories() {
+        return 0; // default
+    }
+}
 
-class RunningWorkout inherits Workout
-    private distance: number
-    private pace: number
+class RunningWorkout extends Workout {
+    private double distance;
+    private double pace;
 
-constructor(D: text, Dur: number, Dist: number, P: number)
-        super(D, Dur)
-        set this.distance to Dist
-        set this.pace to P
- end constructor
+    constructor(int id, String D, int Dur, double Dist, double P) {
+        super(id, D, Dur);
+        this.distance = Dist;
+        this.pace = P;
+    }
 
-    method:
- calculateCalories()
-        return this.distance * this.pace * 0.1
-    end method
-end class
+    @Override
+    public double calculateCalories() {
+        return this.distance * this.pace * 0.1;
+    }
+}
 
+class CyclingWorkout extends Workout {
+    private double distance;
+    private int resistanceLevel;
 
-class CyclingWorkout inherits Workout
-    private distance: number
-    private resistanceLevel: number
+    constructor(int id, String D, int Dur, double Dist, int R) {
+        super(id, D, Dur);
+        this.distance = Dist;
+        this.resistanceLevel = R;
+    }
 
-constructor(D: text, Dur: number, Dist: number, R: number)
-        super(D, Dur)
-        set this.distance to Dist
-        set this.resistanceLevel to R
-end constructor
+    @Override
+    public double calculateCalories() {
+        return this.distance * this.resistanceLevel * 0.2;
+    }
+}
 
-    method:
- calculateCalories()
-        return this.distance * this.resistanceLevel * 0.2
-    end method
-end class
+class WeightTrainingWorkout extends Workout {
+    private int sets;
+    private int reps;
 
+    constructor(int id, String D, int Dur, int S, int R) {
+        super(id, D, Dur);
+        this.sets = S;
+        this.reps = R;
+    }
 
-class WeightTrainingWorkout inherits Workout
-    private sets: number
-    private reps: number
+    @Override
+    public double calculateCalories() {
+        return this.sets * this.reps * 0.5;
+    }
+}
 
-constructor(D: text, Dur: number, S: number, R: number)
-        super(D, Dur)
-        set this.sets to S
-        set this.reps to R
-end constructor
+class FitnessLog {
+    private int logId;
+    private List<Workout> workouts;
 
-    method: 
-calculateCalories()
-        return this.sets * this.reps * 0.5
-    end method
-end class
+    constructor(int id) {
+        this.logId = id;
+        this.workouts = new ArrayList<>();
+    }
 
+    public void addWorkout(Workout W) {
+        this.workouts.add(W);
+    }
 
-class FitnessLog
-    private workouts[]
+    public void showAllWorkouts() {
+        for (Workout w : this.workouts) {
+            System.out.println(
+                "Workout ID: " + w.getWorkoutId() +
+                ", Date: " + w.getDate() +
+                ", Duration: " + w.getDuration() + " mins" +
+                ", Calories: " + w.calculateCalories() + " calories"
+            );
+        }
+    }
 
-constructor()
-        set this.workouts to []
-    end constructor
+    public double calculateTotalCalories() {
+        double total = 0;
+        for (Workout w : this.workouts) {
+            total += w.calculateCalories();
+        }
+        return total;
+    }
+}
 
-method:
- 	addWorkout(W: Workout)
-        add W to this.workouts
-end method
+// START
+public class Main {
+    public static void main(String[] args) {
+        FitnessLog log1 = new FitnessLog(201);
 
-method:
-  	showAllWorkouts()
-        for each w in this.workouts
-            display w.date , w.duration , w.calculateCalories()
-        end for
-    end method
-end class
+        RunningWorkout run1 = new RunningWorkout(1, "2026-07-10", 30, 5, 6);
+        CyclingWorkout cycle1 = new CyclingWorkout(2, "2026-07-11", 45, 10, 3);
+        WeightTrainingWorkout wt1 = new WeightTrainingWorkout(3, "2026-07-12", 60, 4, 12);
 
+        log1.addWorkout(run1);
+        log1.addWorkout(cycle1);
+        log1.addWorkout(wt1);
 
-START
-BEGIN
-    CREATE OBJECT log1 OF FitnessLog()
+        System.out.println("Workouts in Fitness Log:");
+        log1.showAllWorkouts();
 
-    CREATE OBJECT run1 OF RunningWorkout("2026-07-10", 30, 5, 6)
-    CREATE OBJECT cycle1 OF CyclingWorkout("2026-07-11", 45, 10, 3)
-    CREATE OBJECT wt1 OF WeightTrainingWorkout("2026-07-12", 60, 4, 12)
-
-    log1.addWorkout(run1)
-    log1.addWorkout(cycle1)
-    log1.addWorkout(wt1)
-
-    display "Workouts in Fitness Log:"
-    log1.showAllWorkouts()
-END
-	STOP
---------------------------------------------------------------------------
+        System.out.println("Total Calories Burned: " + log1.calculateTotalCalories() + " calories");
+    }
+}--------------------------------------------------------------------------
 Task 305: Video Game Characters
 
-class Inventory
-    private items[]
+class Item {
+    private int itemId;
+    private String name;
+    private double weight;
+    private double value;
 
-constructor()
-        set this.items to []
-end constructor
+    constructor(int id, String N, double W, double V) {
+        this.itemId = id;
+        this.name = N;
+        this.weight = W;
+        this.value = V;
+    }
 
-method:
-addItem(item: text)
-        add item to this.items
-end method
+    public String getName() { return this.name; }
+    public double getWeight() { return this.weight; }
+    public double getValue() { return this.value; }
+}
 
-method:
- showItems()
-        for each i in this.items
-            display i
-end for
-    	end method
-		end class
+class Inventory {
+    private int inventoryId;
+    private List<Item> items;
 
+    constructor(int id) {
+        this.inventoryId = id;
+        this.items = new ArrayList<>();
+    }
 
-class Character
-    private name: text
-    private health: number
-    private inventory: Inventory
+    public void addItem(Item item) {
+        this.items.add(item);
+    }
 
-constructor(N: text, H: number)
-        set this.name to N
-        set this.health to H
-        set this.inventory to new Inventory()
-end constructor
+    public void showItems() {
+        for (Item i : this.items) {
+            System.out.println("Item: " + i.getName() + 
+                               ", Weight: " + i.getWeight() + 
+                               ", Value: " + i.getValue());
+        }
+    }
+}
 
-method: 
-attack()
-    end method
+class Character {
+    private int characterId;
+    private String name;
+    private int health;
+    private Inventory inventory;
 
-method:
- getInventory()
-        return this.inventory
-end method
-	end class
+    constructor(int id, String N, int H) {
+        this.characterId = id;
+        this.name = N;
+        this.health = H;
+        this.inventory = new Inventory(id * 100); // link inventory ID
+    }
 
+    public String attack() {
+        return this.name + " attacks!";
+    }
 
-class Warrior inherits Character
-    private armorType: text
+    public void takeDamage(int amount) {
+        this.health -= amount;
+        if (this.health < 0) this.health = 0;
+    }
 
-constructor(N: text, H: number, A: text)
-        super(N, H)
-        set this.armorType to A
-end constructor
+    public void heal(int amount) {
+        this.health += amount;
+    }
 
-method:
- attack()
-        return this.name + " attacks with melee strength!"
-end method
-	end class
+    public Inventory getInventory() {
+        return this.inventory;
+    }
+}
 
+class Warrior extends Character {
+    private String armorType;
 
-class Mage inherits Character
-    private manaPool: number
+    constructor(int id, String N, int H, String A) {
+        super(id, N, H);
+        this.armorType = A;
+    }
 
-constructor(N: text, H: number, M: number)
-        super(N, H)
-        set this.manaPool to M
-end constructor
+    @Override
+    public String attack() {
+        return this.name + " attacks with melee strength!";
+    }
+}
 
-method:
- 	attack()
-        if this.manaPool > 0
-            decrease this.manaPool by 10
-            return this.name + " casts a magic spell!"
-        else
-            return this.name + " has no mana left!"
-        end if
-    end method
-end class
+class Mage extends Character {
+    private int manaPool;
 
+    constructor(int id, String N, int H, int M) {
+        super(id, N, H);
+        this.manaPool = M;
+    }
 
-class Archer inherits Character
-    private arrowCount: number
+    @Override
+    public String attack() {
+        if (this.manaPool > 0) {
+            this.manaPool -= 10;
+            return this.name + " casts a magic spell!";
+        } else {
+            return this.name + " has no mana left!";
+        }
+    }
+}
 
-constructor(N: text, H: number, Ar: number)
-        super(N, H)
-        set this.arrowCount to Ar
-end constructor
+class Archer extends Character {
+    private int arrowCount;
 
-method:
-	 attack()
-        if this.arrowCount > 0
-            decrease this.arrowCount by 1
-            return this.name + " shoots an arrow!"
-        else
-            return this.name + " has no arrows left!"
-        end if
-    end method
-end class
+    constructor(int id, String N, int H, int Ar) {
+        super(id, N, H);
+        this.arrowCount = Ar;
+    }
 
+    @Override
+    public String attack() {
+        if (this.arrowCount > 0) {
+            this.arrowCount -= 1;
+            return this.name + " shoots an arrow!";
+        } else {
+            return this.name + " has no arrows left!";
+        }
+    }
+}
 
-START
-BEGIN
-    CREATE OBJECT warrior1 OF Warrior("Thorin", 100, "Heavy Armor")
-    CREATE OBJECT mage1 OF Mage("Elora", 80, 50)
-    CREATE OBJECT archer1 OF Archer("Lyris", 90, 10)
+// START
+public class Main {
+    public static void main(String[] args) {
+        Warrior warrior1 = new Warrior(1, "Thorin", 100, "Heavy Armor");
+        Mage mage1 = new Mage(2, "Elora", 80, 50);
+        Archer archer1 = new Archer(3, "Lyris", 90, 10);
 
-    warrior1.getInventory().addItem("Sword")
-    mage1.getInventory().addItem("Magic Staff")
-    archer1.getInventory().addItem("Bow")
+        warrior1.getInventory().addItem(new Item(101, "Sword", 5.0, 150));
+        mage1.getInventory().addItem(new Item(102, "Magic Staff", 3.0, 200));
+        archer1.getInventory().addItem(new Item(103, "Bow", 2.5, 120));
 
-    display warrior1.attack()
-    display mage1.attack()
-    display archer1.attack()
+        System.out.println(warrior1.attack());
+        System.out.println(mage1.attack());
+        System.out.println(archer1.attack());
 
-    display "Warrior Inventory:"
-    warrior1.getInventory().showItems()
+        System.out.println("Warrior Inventory:");
+        warrior1.getInventory().showItems();
 
-    display "Mage Inventory:"
-    mage1.getInventory().showItems()
+        System.out.println("Mage Inventory:");
+        mage1.getInventory().showItems();
 
-    display "Archer Inventory:"
-    archer1.getInventory().showItems()
-END
-STOP
-
+        System.out.println("Archer Inventory:");
+        archer1.getInventory().showItems();
+    }
+}
 -----------------------------------------------------------------------
 Task 306: Utility Billing System
 
-class MeterReading
-    private startReading: number
-    private endReading: number
+class MeterReading {
+    private int meterReadingId;
+    private int startReading;
+    private int endReading;
 
-constructor(S: number, E: number)
-        set this.startReading to S
-        set this.endReading to E
-end constructor
+    constructor(int id, int S, int E) {
+        this.meterReadingId = id;
+        this.startReading = S;
+        this.endReading = E;
+    }
 
-method: 
-getConsumption()
-        return this.endReading - this.startReading
-end method
-end class
+    public int getMeterReadingId() { return this.meterReadingId; }
+    public int getConsumption() { return this.endReading - this.startReading; }
+}
 
+abstract class Bill {
+    private int billId;
+    private String billingPeriod;
+    private String dueDate;
+    private MeterReading meterReading;
 
-class Bill
-    private billingPeriod: text
-    private dueDate: text
-    private meterReading: MeterReading
+    constructor(int id, String BP, String DD, MeterReading MR) {
+        this.billId = id;
+        this.billingPeriod = BP;
+        this.dueDate = DD;
+        this.meterReading = MR;
+    }
 
-constructor(BP: text, DD: text, MR: MeterReading)
-        set this.billingPeriod to BP
-        set this.dueDate to DD
-        set this.meterReading to MR
-end constructor
+    public int getBillId() { return this.billId; }
+    public String getBillingPeriod() { return this.billingPeriod; }
+    public String getDueDate() { return this.dueDate; }
+    public MeterReading getMeterReading() { return this.meterReading; }
 
-method:
- calculateAmountOwed()
-end method
-end class
+    public abstract double calculateAmountOwed();
+}
 
+class ElectricityBill extends Bill {
+    private double rateDay;
+    private double rateNight;
+    private boolean isDayTime;
 
-class ElectricityBill inherits Bill
-    private rateDay: number
-    private rateNight: number
+    constructor(int id, String BP, String DD, MeterReading MR, double RD, double RN, boolean dayFlag) {
+        super(id, BP, DD, MR);
+        this.rateDay = RD;
+        this.rateNight = RN;
+        this.isDayTime = dayFlag;
+    }
 
-constructor(BP: text, DD: text, MR: MeterReading, RD: number, RN: number)
-        super(BP, DD, MR)
-        set this.rateDay to RD
-        set this.rateNight to RN
-end constructor
+    @Override
+    public double calculateAmountOwed() {
+        int consumption = this.getMeterReading().getConsumption();
+        return this.isDayTime ? (consumption * this.rateDay) : (consumption * this.rateNight);
+    }
+}
 
-method:
- calculateAmountOwed()
-        consumption = this.meterReading.getConsumption()
-        return (consumption * this.rateDay) 
-end class
+class WaterBill extends Bill {
+    private double flatRate;
+    private double standingCharge;
 
+    constructor(int id, String BP, String DD, MeterReading MR, double FR, double SC) {
+        super(id, BP, DD, MR);
+        this.flatRate = FR;
+        this.standingCharge = SC;
+    }
 
-class WaterBill inherits Bill
-    private flatRate: number
-    private standingCharge: number
+    @Override
+    public double calculateAmountOwed() {
+        int consumption = this.getMeterReading().getConsumption();
+        return (consumption * this.flatRate) + this.standingCharge;
+    }
+}
 
-constructor(BP: text, DD: text, MR: MeterReading, FR: number, SC: number)
-        super(BP, DD, MR)
-        set this.flatRate to FR
-        set this.standingCharge to SC
- end constructor
+class GasBill extends Bill {
+    private double rate;
+    private String season;
 
-method: 
-calculateAmountOwed()
-        consumption = this.meterReading.getConsumption()
-        return (consumption * this.flatRate) + this.standingCharge
-end method
-end class
+    constructor(int id, String BP, String DD, MeterReading MR, double R, String S) {
+        super(id, BP, DD, MR);
+        this.rate = R;
+        this.season = S;
+    }
 
+    @Override
+    public double calculateAmountOwed() {
+        int consumption = this.getMeterReading().getConsumption();
+        double amount = consumption * this.rate;
+        if (this.season.equals("Winter")) {
+            amount += 50;
+        }
+        return amount;
+    }
+}
 
-class GasBill inherits Bill
-    private rate: number
-    private season: text
+class CustomerAccount {
+    private int accountId;
+    private String customerName;
+    private List<Bill> bills;
 
-constructor(BP: text, DD: text, MR: MeterReading, R: number, S: text)
-        super(BP, DD, MR)
-        set this.rate to R
-        set this.season to S
-    end constructor
+    constructor(int id, String name) {
+        this.accountId = id;
+        this.customerName = name;
+        this.bills = new ArrayList<>();
+    }
 
-method: 
-calculateAmountOwed()
-        consumption = this.meterReading.getConsumption()
-        amount = consumption * this.rate
-        if this.season == "Winter"
-            amount = amount + 50  
-        end if
-        return amount
-    end method
-end class
+    public void addBill(Bill B) {
+        this.bills.add(B);
+    }
 
+    public void showAllBills() {
+        System.out.println("Customer: " + this.customerName + " (Account ID: " + this.accountId + ")");
+        for (Bill b : this.bills) {
+            System.out.println(
+                "Bill ID: " + b.getBillId() +
+                ", Period: " + b.getBillingPeriod() +
+                ", Due: " + b.getDueDate() +
+                ", Amount: " + b.calculateAmountOwed()
+            );
+        }
+    }
+}
 
-class CustomerAccount
-    private bills[]
+// START
+public class Main {
+    public static void main(String[] args) {
+        CustomerAccount account1 = new CustomerAccount(301, "Reem");
 
-constructor()
-        set this.bills to []
-end constructor
+        MeterReading mr1 = new MeterReading(101, 1000, 1200);
+        ElectricityBill elecBill1 = new ElectricityBill(201, "June 2026", "2026-07-15", mr1, 0.2, 0.1, true);
 
- method: 
-addBill(B: Bill)
-        add B to this.bills
-end method
+        MeterReading mr2 = new MeterReading(102, 500, 650);
+        WaterBill waterBill1 = new WaterBill(202, "June 2026", "2026-07-20", mr2, 0.05, 10);
 
- method:
- showAllBills()
-        for each b in this.bills
-            display b.billingPeriod , b.dueDate , b.calculateAmountOwed()
-        end for
-    end method
-end class
+        MeterReading mr3 = new MeterReading(103, 200, 300);
+        GasBill gasBill1 = new GasBill(203, "June 2026", "2026-07-25", mr3, 0.15, "Winter");
 
+        account1.addBill(elecBill1);
+        account1.addBill(waterBill1);
+        account1.addBill(gasBill1);
 
-START
-BEGIN
-    CREATE OBJECT account1 OF CustomerAccount()
-
-    CREATE OBJECT mr1 OF MeterReading(1000, 1200)
-    CREATE OBJECT elecBill1 OF ElectricityBill("June 2026", "2026-07-15", mr1, 0.2, 0.1)
-
-    CREATE OBJECT mr2 OF MeterReading(500, 650)
-    CREATE OBJECT waterBill1 OF WaterBill("June 2026", "2026-07-20", mr2, 0.05, 10)
-
-    CREATE OBJECT mr3 OF MeterReading(200, 300)
-    CREATE OBJECT gasBill1 OF GasBill("June 2026", "2026-07-25", mr3, 0.15, "Winter")
-
-    account1.addBill(elecBill1)
-    account1.addBill(waterBill1)
-    account1.addBill(gasBill1)
-
-    display "Customer Bills:"
-    account1.showAllBills()
-END
-STOP
+        System.out.println("Customer Bills:");
+        account1.showAllBills();
+    }
+}
 -------------------------------------------------------------------------------------
 Task 307: Ride-Sharing Vehicle Tiers
 
-class Route
-    private waypoints[]
+class Route {
+    private int routeId;
+    private List<String> waypoints;
 
-constructor()
-        set this.waypoints to []
- end constructor
+    constructor(int id) {
+        this.routeId = id;
+        this.waypoints = new ArrayList<>();
+    }
 
-method:
- addWaypoint(w: text)
-        add w to this.waypoints
-end method
+    public void addWaypoint(String w) {
+        this.waypoints.add(w);
+    }
 
-method: 
-showRoute()
-        for each wp in this.waypoints
-            display wp
-        end for
-    end method
-end class
+    public void showRoute() {
+        System.out.println("Route ID: " + this.routeId);
+        for (String wp : this.waypoints) {
+            System.out.println("Waypoint: " + wp);
+        }
+    }
 
+    // Stubbed distance calculation (could be improved with coordinates)
+    public int calculateDistance() {
+        return this.waypoints.size() * 5; // assume 5 km per segment
+    }
+}
 
-class Ride
-    private pickupLocation: text
-    private dropoffLocation: text
-    private route: Route
-    private distance: number
+abstract class Ride {
+    private int rideId;
+    private String pickupLocation;
+    private String dropoffLocation;
+    private Route route;
+    private int distance;
 
-constructor(P: text, D: text, Dist: number, R: Route)
-        set this.pickupLocation to P
-        set this.dropoffLocation to D
-        set this.distance to Dist
-        set this.route to R
-end constructor
+    constructor(int id, String P, String D, int Dist, Route RouteObj) {
+        this.rideId = id;
+        this.pickupLocation = P;
+        this.dropoffLocation = D;
+        this.distance = Dist;
+        this.route = RouteObj;
+    }
 
-method: 
-calculateFare()
-    end method
+    public int getRideId() { return this.rideId; }
+    public Route getRoute() { return this.route; }
 
-method:
- getRoute()
-        return this.route
-    end method
-end class
+    public abstract double calculateFare();
+}
 
+class StandardRide extends Ride {
+    private double ratePerKm;
 
-class StandardRide inherits Ride
-    private ratePerKm: number
+    constructor(int id, String P, String D, int Dist, Route RouteObj, double Rate) {
+        super(id, P, D, Dist, RouteObj);
+        this.ratePerKm = Rate;
+    }
 
-constructor(P: text, D: text, Dist: number, R: Route, Rate: number)
-        call super(P, D, Dist, R)
-        set this.ratePerKm to Rate
-end constructor
+    @Override
+    public double calculateFare() {
+        return this.getRoute().calculateDistance() * this.ratePerKm;
+    }
+}
 
-method:
- calculateFare()
-        return this.distance * this.ratePerKm
-    end method
-end class
+class SharedRide extends StandardRide {
+    private int passengerCount;
 
+    constructor(int id, String P, String D, int Dist, Route RouteObj, double Rate, int PC) {
+        super(id, P, D, Dist, RouteObj, Rate);
+        this.passengerCount = PC;
+    }
 
-class SharedRide inherits StandardRide
-    private passengerCount: number
+    @Override
+    public double calculateFare() {
+        double baseFare = super.calculateFare();
+        return baseFare / this.passengerCount;
+    }
+}
 
-constructor(P: text, D: text, Dist: number, R: Route, Rate: number, PC: number)
-        call super(P, D, Dist, R, Rate)
-        set this.passengerCount to PC
-end constructor
+class PremiumRide extends Ride {
+    private double ratePerKm;
+    private double comfortSurcharge;
 
-method: 
-calculateFare()
-        baseFare = super.calculateFare()
-        return baseFare / this.passengerCount
-    end method
-end class
+    constructor(int id, String P, String D, int Dist, Route RouteObj, double Rate, double CS) {
+        super(id, P, D, Dist, RouteObj);
+        this.ratePerKm = Rate;
+        this.comfortSurcharge = CS;
+    }
 
+    @Override
+    public double calculateFare() {
+        return (this.getRoute().calculateDistance() * this.ratePerKm) + this.comfortSurcharge;
+    }
+}
 
-class PremiumRide inherits Ride
-    private ratePerKm: number
-    private comfortSurcharge: number
+// START
+public class Main {
+    public static void main(String[] args) {
+        Route route1 = new Route(501);
+        route1.addWaypoint("Mall");
+        route1.addWaypoint("Main Street");
+        route1.addWaypoint("Airport");
 
-constructor(P: text, D: text, Dist: number, R: Route, Rate: number, CS: number)
-        call super(P, D, Dist, R)
-        set this.ratePerKm to Rate
-        set this.comfortSurcharge to CS
- end constructor
+        System.out.println("Route followed:");
+        route1.showRoute();
 
-    method: calculateFare()
-        return (this.distance * this.ratePerKm) + this.comfortSurcharge
-    end method
-end class
+        StandardRide standardRide1 = new StandardRide(101, "Mall", "Airport", 15, route1, 0.5);
+        SharedRide sharedRide1 = new SharedRide(102, "Mall", "Airport", 15, route1, 0.5, 3);
+        PremiumRide premiumRide1 = new PremiumRide(103, "Mall", "Airport", 15, route1, 1.0, 5);
 
-
-START
-BEGIN
-    CREATE OBJECT route1 OF Route()
-    route1.addWaypoint("Mall")
-    route1.addWaypoint("Main Street")
-    route1.addWaypoint("Airport")
-
-    CREATE OBJECT standardRide1 OF StandardRide("Mall", "Airport", 15, route1, 0.5)
-    CREATE OBJECT sharedRide1 OF SharedRide("Mall", "Airport", 15, route1, 0.5, 3)
-    CREATE OBJECT premiumRide1 OF PremiumRide("Mall", "Airport", 15, route1, 1.0, 5)
-
-    display "Standard Ride Fare: " , standardRide1.calculateFare()
-    display "Shared Ride Fare: " , sharedRide1.calculateFare()
-    display "Premium Ride Fare: " , premiumRide1.calculateFare()
-
-    display "Route followed:"
-    route1.showRoute()
-END
-STOP
-
-
-
-
-
+        System.out.println("Standard Ride Fare: " + standardRide1.calculateFare());
+        System.out.println("Shared Ride Fare: " + sharedRide1.calculateFare());
+        System.out.println("Premium Ride Fare: " + premiumRide1.calculateFare());
+    }
+}
 
 
 
